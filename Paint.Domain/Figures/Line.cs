@@ -3,24 +3,45 @@
     public class Line : IFigure
     {
         private Point startPoint;
-        private Point endPoint;
-        public FigureType Type { get { return FigureType.Line; }}
+        private bool isDrawing = false;
 
-        public Point StartPoint { get; set; }
+        public FigureType Type { get { return FigureType.Line; } }
 
-        public void Draw(Graphics graphics, Pen pen, Point endPoint)
+        public void Draw(Graphics graphics, Pen pen, Point point)
         {
-            graphics.DrawLine(pen, startPoint, endPoint);
+
+            graphics.DrawLine(pen, startPoint, point);
+            if (point != startPoint)
+            {
+                EndDrawing();
+            }
+
         }
 
-        public void SetStartPoint(Point point)
+        public void EndDrawing()
         {
-            startPoint = point;
+            isDrawing = false;
         }
 
-        public void Preview(Graphics graphics, Pen pen, Point mousePosition)
+        public void MakePoint(Point point)
         {
-           Draw(graphics, pen, mousePosition);
+            if (!isDrawing)
+            {
+                startPoint = point;
+                isDrawing = true;
+            } else
+            {
+                EndDrawing();
+            }
+        }
+
+        public void PreDraw(Graphics graphics, Pen pen, Point point)
+        {
+            if (isDrawing)
+            {
+                graphics.DrawLine(pen, startPoint, point);
+            }
+            
         }
     }
 }

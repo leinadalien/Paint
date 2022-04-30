@@ -15,9 +15,9 @@ namespace Paint.Domain
                 case FigureType.Rectangle:
                     return new Figures.Rectangle(points);
                 case FigureType.Ellipse:
-                    return new Ellipse(points);
+                    return new Ellipse(points);*/
                 case FigureType.BrokenLine:
-                    return new BrokenLine(points);*/
+                    return new BrokenLine();
                 default:
                     throw new ArgumentException("Invalid type of figure");
             }

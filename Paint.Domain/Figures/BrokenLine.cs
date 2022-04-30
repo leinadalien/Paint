@@ -1,18 +1,38 @@
 ﻿namespace Paint.Domain.Figures
 {
-    public class BrokenLine //: IFigure
+    public class BrokenLine : IFigure
     {
         private List<Point> points;
-        public FigureType Type { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public Point StartPoint { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public void Draw(Graphics graphics, Pen pen)
+        public FigureType Type { get { return FigureType.BrokenLine; } }
+        public BrokenLine()
         {
-            throw new NotImplementedException();
+            points = new();
         }
-        public BrokenLine(List<Point> points)
+
+        public void MakePoint(Point point)
         {
-            this.points = points;
+            points.Add(point);
+        }
+
+        public void Draw(Graphics graphics, Pen pen, Point point)
+        {
+            points.Add(point);
+            graphics.DrawLines(pen, points.ToArray());
+        }
+
+        public void EndDrawing()
+        {
+            points.Clear();
+        }
+
+        public void PreDraw(Graphics graphics, Pen pen, Point point)
+        {
+            if (points.Count > 0)
+            {
+                points.Add(point);
+                graphics.DrawLines(pen, points.ToArray());
+                points.Remove(point);
+            }
         }
     }
 }

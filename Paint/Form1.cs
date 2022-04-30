@@ -5,9 +5,6 @@ namespace Paint
 {
     public partial class PaintForm : Form
     {
-        private bool isMouseDown = false;
-
-        //private List<Point> points = new();
         private Bitmap bitmap;
         private Graphics graphics;
         private Pen pen;
@@ -20,45 +17,41 @@ namespace Paint
             pen = new(Color.Black, penSizeTrackBar.Value);
             pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
             pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+            currentFigure = Factory.CreateFigure(FigureType.BrokenLine);
         }
 
         private void canvas_MouseDown(object sender, MouseEventArgs e)
         {
-            isMouseDown = true;
-            currentFigure = Factory.CreateFigure(FigureType.Line);
-            currentFigure.SetStartPoint(e.Location);
+            if (e.Button == MouseButtons.Left)
+            {
+                currentFigure.MakePoint(e.Location);
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                currentFigure.EndDrawing();
+            }
         }
 
         private void canvas_MouseUp(object sender, MouseEventArgs e)
         {
-            isMouseDown = false;
-            currentFigure.Draw(graphics, pen, e.Location);
+            
+            if (e.Button == MouseButtons.Left)
+            {
+                currentFigure.Draw(graphics, pen, e.Location);
+            }
             canvas.Image = bitmap;
 
         }
 
         private void canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isMouseDown)
+            using (Bitmap tempBitmap = new(bitmap))
             {
-                using (Bitmap tempBitmap = new(bitmap))
-                {
-                    Graphics tempGraphics = Graphics.FromImage(tempBitmap);
-                    currentFigure.Preview(tempGraphics, pen, e.Location);
-                    canvas.Image = tempBitmap;
-                    canvas.Refresh();
-                    tempGraphics.Dispose();
-                }
-                
-                /*points.Add(e.Location);
-                if (points.Count > 1)
-                {
-                    g.DrawLine(pen, points[0], points[1]);
-                    canvas.Image = bitmap;
-                    points.Clear();
-                    points.Add(e.Location);
-                }*/
-
+                Graphics tempGraphics = Graphics.FromImage(tempBitmap);
+                currentFigure.PreDraw(tempGraphics, pen, e.Location);
+                canvas.Image = tempBitmap;
+                canvas.Refresh();
+                tempGraphics.Dispose();
             }
         }
         private void colorButton_SetPenColor(object sender, EventArgs e)
