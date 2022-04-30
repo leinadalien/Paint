@@ -1,11 +1,26 @@
 ﻿namespace Paint.Domain.Figures
 {
-    public class Line : Figure
+    public class Line : IFigure
     {
-        public Line(List<Point> points)
+        private Point startPoint;
+        private Point endPoint;
+        public FigureType Type { get { return FigureType.Line; }}
+
+        public Point StartPoint { get; set; }
+
+        public void Draw(Graphics graphics, Pen pen, Point endPoint)
         {
-            this.points = points;
-            Type = FigureType.Line;
+            graphics.DrawLine(pen, startPoint, endPoint);
+        }
+
+        public void SetStartPoint(Point point)
+        {
+            startPoint = point;
+        }
+
+        public void Preview(Graphics graphics, Pen pen, Point mousePosition)
+        {
+           Draw(graphics, pen, mousePosition);
         }
     }
 }

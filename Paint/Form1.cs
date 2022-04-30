@@ -1,18 +1,22 @@
+using Paint.Domain;
+using Paint.Domain.Figures;
+
 namespace Paint
 {
     public partial class PaintForm : Form
     {
         private bool isMouseDown = false;
 
-        private List<Point> points = new();
+        //private List<Point> points = new();
         private Bitmap bitmap;
-        private Graphics g;
+        private Graphics graphics;
         private Pen pen;
+        private IFigure currentFigure;
         public PaintForm()
         {
             InitializeComponent();
             bitmap = new(canvas.Width, canvas.Height);
-            g = Graphics.FromImage(bitmap);
+            graphics = Graphics.FromImage(bitmap);
             pen = new(Color.Black, penSizeTrackBar.Value);
             pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
             pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
@@ -21,26 +25,40 @@ namespace Paint
         private void canvas_MouseDown(object sender, MouseEventArgs e)
         {
             isMouseDown = true;
+            currentFigure = Factory.CreateFigure(FigureType.Line);
+            currentFigure.SetStartPoint(e.Location);
         }
 
         private void canvas_MouseUp(object sender, MouseEventArgs e)
         {
             isMouseDown = false;
-            points.Clear();
+            currentFigure.Draw(graphics, pen, e.Location);
+            canvas.Image = bitmap;
+
         }
 
         private void canvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (isMouseDown)
             {
-                points.Add(e.Location);
+                using (Bitmap tempBitmap = new(bitmap))
+                {
+                    Graphics tempGraphics = Graphics.FromImage(tempBitmap);
+                    currentFigure.Preview(tempGraphics, pen, e.Location);
+                    canvas.Image = tempBitmap;
+                    canvas.Refresh();
+                    tempGraphics.Dispose();
+                }
+                
+                /*points.Add(e.Location);
                 if (points.Count > 1)
                 {
                     g.DrawLine(pen, points[0], points[1]);
                     canvas.Image = bitmap;
                     points.Clear();
                     points.Add(e.Location);
-                }
+                }*/
+
             }
         }
         private void colorButton_SetPenColor(object sender, EventArgs e)
@@ -55,7 +73,7 @@ namespace Paint
 
         private void clearCanvasButton_Click(object sender, EventArgs e)
         {
-            g.Clear(Color.White);
+            graphics.Clear(Color.White);
             canvas.Image = bitmap;
         }
     }
