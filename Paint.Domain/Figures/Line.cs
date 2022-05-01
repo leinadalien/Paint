@@ -9,39 +9,30 @@
 
         public void Draw(Graphics graphics, Pen pen, Point point)
         {
-
-            graphics.DrawLine(pen, startPoint, point);
-            if (point != startPoint)
-            {
-                EndDrawing();
-            }
-
-        }
-
-        public void EndDrawing()
-        {
-            isDrawing = false;
-        }
-
-        public void MakePoint(Point point)
-        {
             if (!isDrawing)
             {
                 startPoint = point;
                 isDrawing = true;
-            } else
+                //Size size = new((int)pen.Width, (int)pen.Width);
+                //graphics.FillEllipse(pen.Brush, new(Point.Subtract(point, size / 2), size));
+            }
+            graphics.DrawLine(pen, startPoint, point);
+            if (point != startPoint)
             {
-                EndDrawing();
+                CancelDrawing();
             }
         }
 
+        public void CancelDrawing()
+        {
+            isDrawing = false;
+        }
         public void PreDraw(Graphics graphics, Pen pen, Point point)
         {
             if (isDrawing)
             {
                 graphics.DrawLine(pen, startPoint, point);
             }
-            
         }
     }
 }

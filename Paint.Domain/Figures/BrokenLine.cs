@@ -8,19 +8,17 @@
         {
             points = new();
         }
-
-        public void MakePoint(Point point)
-        {
-            points.Add(point);
-        }
-
         public void Draw(Graphics graphics, Pen pen, Point point)
         {
+            if (points.Count == 0)
+            {
+                points.Add(point);
+            }
             points.Add(point);
             graphics.DrawLines(pen, points.ToArray());
         }
 
-        public void EndDrawing()
+        public void CancelDrawing()
         {
             points.Clear();
         }
@@ -31,8 +29,13 @@
             {
                 points.Add(point);
                 graphics.DrawLines(pen, points.ToArray());
-                points.Remove(point);
+                points.RemoveAt(points.Count - 1);
             }
+        }
+
+        public void DrawTarget(Graphics graphics, Pen pen, Point point)
+        {
+            throw new NotImplementedException();
         }
     }
 }

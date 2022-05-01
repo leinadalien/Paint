@@ -9,9 +9,8 @@ namespace Paint.Domain.Figures
     public interface IFigure
     {
         public FigureType Type { get;}
-        public void MakePoint(Point point);
         public void Draw(Graphics graphics, Pen pen, Point point);
-        public void EndDrawing();
+        public void CancelDrawing();
         public void PreDraw(Graphics graphics, Pen pen, Point point);
     }
 }
