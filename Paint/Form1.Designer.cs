@@ -30,7 +30,7 @@
         {
             this.canvasPanel = new System.Windows.Forms.Panel();
             this.canvas = new System.Windows.Forms.PictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.palettePanel = new System.Windows.Forms.Panel();
             this.paletteFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.colorButton1 = new System.Windows.Forms.Button();
             this.colorButton2 = new System.Windows.Forms.Button();
@@ -45,27 +45,29 @@
             this.addColorButton = new System.Windows.Forms.Button();
             this.paletteLabel = new System.Windows.Forms.Label();
             this.toolsPanel = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.clearCanvasButton = new System.Windows.Forms.Button();
+            this.undoRedoPanel = new System.Windows.Forms.Panel();
+            this.RedoButton = new System.Windows.Forms.Button();
+            this.undoButton = new System.Windows.Forms.Button();
             this.standarFiguresPanel = new System.Windows.Forms.Panel();
             this.standartFiguresFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
             this.StandartFiguresLabel = new System.Windows.Forms.Label();
             this.penSizePanel = new System.Windows.Forms.Panel();
             this.minPenSizeLabel = new System.Windows.Forms.Label();
             this.maxPenSizeLabel = new System.Windows.Forms.Label();
             this.penSizeTrackBar = new System.Windows.Forms.TrackBar();
             this.penSizeLabel = new System.Windows.Forms.Label();
+            this.clearCanvasPanel = new System.Windows.Forms.Panel();
+            this.clearCanvasButton = new System.Windows.Forms.Button();
             this.canvasPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
-            this.panel2.SuspendLayout();
+            this.palettePanel.SuspendLayout();
             this.paletteFlowLayoutPanel.SuspendLayout();
             this.toolsPanel.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.undoRedoPanel.SuspendLayout();
             this.standarFiguresPanel.SuspendLayout();
-            this.standartFiguresFlowLayoutPanel.SuspendLayout();
             this.penSizePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.penSizeTrackBar)).BeginInit();
+            this.clearCanvasPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // canvasPanel
@@ -92,19 +94,19 @@
             this.canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
             this.canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseUp);
             // 
-            // panel2
+            // palettePanel
             // 
-            this.panel2.AutoSize = true;
-            this.panel2.BackColor = System.Drawing.Color.Transparent;
-            this.panel2.Controls.Add(this.paletteFlowLayoutPanel);
-            this.panel2.Controls.Add(this.paletteLabel);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(5, 5);
-            this.panel2.Margin = new System.Windows.Forms.Padding(5);
-            this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(5);
-            this.panel2.Size = new System.Drawing.Size(220, 160);
-            this.panel2.TabIndex = 1;
+            this.palettePanel.AutoSize = true;
+            this.palettePanel.BackColor = System.Drawing.Color.Transparent;
+            this.palettePanel.Controls.Add(this.paletteFlowLayoutPanel);
+            this.palettePanel.Controls.Add(this.paletteLabel);
+            this.palettePanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.palettePanel.Location = new System.Drawing.Point(5, 5);
+            this.palettePanel.Margin = new System.Windows.Forms.Padding(5);
+            this.palettePanel.Name = "palettePanel";
+            this.palettePanel.Padding = new System.Windows.Forms.Padding(5);
+            this.palettePanel.Size = new System.Drawing.Size(220, 160);
+            this.palettePanel.TabIndex = 1;
             // 
             // paletteFlowLayoutPanel
             // 
@@ -284,75 +286,78 @@
             // toolsPanel
             // 
             this.toolsPanel.BackColor = System.Drawing.Color.DimGray;
-            this.toolsPanel.Controls.Add(this.panel1);
             this.toolsPanel.Controls.Add(this.standarFiguresPanel);
+            this.toolsPanel.Controls.Add(this.undoRedoPanel);
             this.toolsPanel.Controls.Add(this.penSizePanel);
-            this.toolsPanel.Controls.Add(this.panel2);
+            this.toolsPanel.Controls.Add(this.palettePanel);
+            this.toolsPanel.Controls.Add(this.clearCanvasPanel);
             this.toolsPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.toolsPanel.Location = new System.Drawing.Point(1032, 0);
             this.toolsPanel.Margin = new System.Windows.Forms.Padding(5);
             this.toolsPanel.Name = "toolsPanel";
             this.toolsPanel.Padding = new System.Windows.Forms.Padding(5);
             this.toolsPanel.Size = new System.Drawing.Size(230, 673);
-            this.toolsPanel.TabIndex = 1;
+            this.toolsPanel.TabIndex = 4;
             // 
-            // panel1
+            // undoRedoPanel
             // 
-            this.panel1.Controls.Add(this.clearCanvasButton);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(5, 381);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(220, 125);
-            this.panel1.TabIndex = 4;
+            this.undoRedoPanel.Controls.Add(this.RedoButton);
+            this.undoRedoPanel.Controls.Add(this.undoButton);
+            this.undoRedoPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.undoRedoPanel.Location = new System.Drawing.Point(5, 485);
+            this.undoRedoPanel.Margin = new System.Windows.Forms.Padding(5);
+            this.undoRedoPanel.Name = "undoRedoPanel";
+            this.undoRedoPanel.Padding = new System.Windows.Forms.Padding(5);
+            this.undoRedoPanel.Size = new System.Drawing.Size(220, 58);
+            this.undoRedoPanel.TabIndex = 5;
             // 
-            // clearCanvasButton
+            // RedoButton
             // 
-            this.clearCanvasButton.BackColor = System.Drawing.Color.DarkGray;
-            this.clearCanvasButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.clearCanvasButton.Location = new System.Drawing.Point(0, 0);
-            this.clearCanvasButton.Name = "clearCanvasButton";
-            this.clearCanvasButton.Size = new System.Drawing.Size(220, 125);
-            this.clearCanvasButton.TabIndex = 0;
-            this.clearCanvasButton.Text = "Clear";
-            this.clearCanvasButton.UseVisualStyleBackColor = false;
-            this.clearCanvasButton.Click += new System.EventHandler(this.ClearCanvasButton_Click);
+            this.RedoButton.BackColor = System.Drawing.Color.DarkGray;
+            this.RedoButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.RedoButton.Location = new System.Drawing.Point(110, 5);
+            this.RedoButton.Margin = new System.Windows.Forms.Padding(5);
+            this.RedoButton.Name = "RedoButton";
+            this.RedoButton.Size = new System.Drawing.Size(105, 48);
+            this.RedoButton.TabIndex = 1;
+            this.RedoButton.Text = "Redo";
+            this.RedoButton.UseVisualStyleBackColor = false;
+            // 
+            // undoButton
+            // 
+            this.undoButton.BackColor = System.Drawing.Color.DarkGray;
+            this.undoButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.undoButton.Location = new System.Drawing.Point(5, 5);
+            this.undoButton.Margin = new System.Windows.Forms.Padding(5);
+            this.undoButton.Name = "undoButton";
+            this.undoButton.Size = new System.Drawing.Size(105, 48);
+            this.undoButton.TabIndex = 0;
+            this.undoButton.Text = "Undo";
+            this.undoButton.UseVisualStyleBackColor = false;
             // 
             // standarFiguresPanel
             // 
             this.standarFiguresPanel.BackColor = System.Drawing.Color.Transparent;
             this.standarFiguresPanel.Controls.Add(this.standartFiguresFlowLayoutPanel);
             this.standarFiguresPanel.Controls.Add(this.StandartFiguresLabel);
-            this.standarFiguresPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.standarFiguresPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.standarFiguresPanel.Location = new System.Drawing.Point(5, 256);
             this.standarFiguresPanel.Margin = new System.Windows.Forms.Padding(5);
             this.standarFiguresPanel.Name = "standarFiguresPanel";
             this.standarFiguresPanel.Padding = new System.Windows.Forms.Padding(5);
-            this.standarFiguresPanel.Size = new System.Drawing.Size(220, 125);
+            this.standarFiguresPanel.Size = new System.Drawing.Size(220, 229);
             this.standarFiguresPanel.TabIndex = 1;
             // 
             // standartFiguresFlowLayoutPanel
             // 
             this.standartFiguresFlowLayoutPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.standartFiguresFlowLayoutPanel.Controls.Add(this.button1);
             this.standartFiguresFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.standartFiguresFlowLayoutPanel.Location = new System.Drawing.Point(5, 30);
             this.standartFiguresFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(5);
             this.standartFiguresFlowLayoutPanel.Name = "standartFiguresFlowLayoutPanel";
             this.standartFiguresFlowLayoutPanel.Padding = new System.Windows.Forms.Padding(5);
-            this.standartFiguresFlowLayoutPanel.Size = new System.Drawing.Size(210, 90);
+            this.standartFiguresFlowLayoutPanel.Size = new System.Drawing.Size(210, 194);
             this.standartFiguresFlowLayoutPanel.TabIndex = 5;
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.DarkGray;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(10, 10);
-            this.button1.Margin = new System.Windows.Forms.Padding(5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(30, 30);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "L";
-            this.button1.UseVisualStyleBackColor = false;
             // 
             // StandartFiguresLabel
             // 
@@ -432,6 +437,30 @@
             this.penSizeLabel.Text = "Pen size";
             this.penSizeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // clearCanvasPanel
+            // 
+            this.clearCanvasPanel.Controls.Add(this.clearCanvasButton);
+            this.clearCanvasPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.clearCanvasPanel.Location = new System.Drawing.Point(5, 543);
+            this.clearCanvasPanel.Margin = new System.Windows.Forms.Padding(5);
+            this.clearCanvasPanel.Name = "clearCanvasPanel";
+            this.clearCanvasPanel.Padding = new System.Windows.Forms.Padding(5);
+            this.clearCanvasPanel.Size = new System.Drawing.Size(220, 125);
+            this.clearCanvasPanel.TabIndex = 5;
+            // 
+            // clearCanvasButton
+            // 
+            this.clearCanvasButton.BackColor = System.Drawing.Color.DarkGray;
+            this.clearCanvasButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.clearCanvasButton.Location = new System.Drawing.Point(5, 5);
+            this.clearCanvasButton.Margin = new System.Windows.Forms.Padding(5);
+            this.clearCanvasButton.Name = "clearCanvasButton";
+            this.clearCanvasButton.Size = new System.Drawing.Size(210, 115);
+            this.clearCanvasButton.TabIndex = 0;
+            this.clearCanvasButton.Text = "Clear";
+            this.clearCanvasButton.UseVisualStyleBackColor = false;
+            this.clearCanvasButton.Click += new System.EventHandler(this.ClearCanvasButton_Click);
+            // 
             // PaintForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -445,16 +474,16 @@
             this.Text = "Paint";
             this.canvasPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
-            this.panel2.ResumeLayout(false);
+            this.palettePanel.ResumeLayout(false);
             this.paletteFlowLayoutPanel.ResumeLayout(false);
             this.toolsPanel.ResumeLayout(false);
             this.toolsPanel.PerformLayout();
-            this.panel1.ResumeLayout(false);
+            this.undoRedoPanel.ResumeLayout(false);
             this.standarFiguresPanel.ResumeLayout(false);
-            this.standartFiguresFlowLayoutPanel.ResumeLayout(false);
             this.penSizePanel.ResumeLayout(false);
             this.penSizePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.penSizeTrackBar)).EndInit();
+            this.clearCanvasPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -481,13 +510,15 @@
         private TrackBar penSizeTrackBar;
         private Label penSizeLabel;
         private FlowLayoutPanel paletteFlowLayoutPanel;
-        private Panel panel1;
+        private Panel clearCanvasPanel;
         private Button clearCanvasButton;
         private Label maxPenSizeLabel;
         private Label minPenSizeLabel;
-        private Button button1;
         private FlowLayoutPanel standartFiguresFlowLayoutPanel;
         private Label paletteLabel;
-        private Panel panel2;
+        private Panel palettePanel;
+        private Panel undoRedoPanel;
+        private Button RedoButton;
+        private Button undoButton;
     }
 }
