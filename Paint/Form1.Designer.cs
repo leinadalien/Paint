@@ -88,9 +88,9 @@
             this.canvas.Size = new System.Drawing.Size(992, 633);
             this.canvas.TabIndex = 0;
             this.canvas.TabStop = false;
-            this.canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseDown);
-            this.canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseMove);
-            this.canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseUp);
+            this.canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseDown);
+            this.canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
+            this.canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseUp);
             // 
             // panel2
             // 
@@ -139,7 +139,7 @@
             this.colorButton1.Size = new System.Drawing.Size(30, 30);
             this.colorButton1.TabIndex = 0;
             this.colorButton1.UseVisualStyleBackColor = false;
-            this.colorButton1.Click += new System.EventHandler(this.colorButton_SetPenColor);
+            this.colorButton1.Click += new System.EventHandler(this.ColorButton_SetPenColor);
             // 
             // colorButton2
             // 
@@ -152,7 +152,7 @@
             this.colorButton2.Size = new System.Drawing.Size(30, 30);
             this.colorButton2.TabIndex = 1;
             this.colorButton2.UseVisualStyleBackColor = false;
-            this.colorButton2.Click += new System.EventHandler(this.colorButton_SetPenColor);
+            this.colorButton2.Click += new System.EventHandler(this.ColorButton_SetPenColor);
             // 
             // colorButton3
             // 
@@ -165,7 +165,7 @@
             this.colorButton3.Size = new System.Drawing.Size(30, 30);
             this.colorButton3.TabIndex = 2;
             this.colorButton3.UseVisualStyleBackColor = false;
-            this.colorButton3.Click += new System.EventHandler(this.colorButton_SetPenColor);
+            this.colorButton3.Click += new System.EventHandler(this.ColorButton_SetPenColor);
             // 
             // colorButton4
             // 
@@ -178,7 +178,7 @@
             this.colorButton4.Size = new System.Drawing.Size(30, 30);
             this.colorButton4.TabIndex = 3;
             this.colorButton4.UseVisualStyleBackColor = false;
-            this.colorButton4.Click += new System.EventHandler(this.colorButton_SetPenColor);
+            this.colorButton4.Click += new System.EventHandler(this.ColorButton_SetPenColor);
             // 
             // colorButton5
             // 
@@ -191,7 +191,7 @@
             this.colorButton5.Size = new System.Drawing.Size(30, 30);
             this.colorButton5.TabIndex = 4;
             this.colorButton5.UseVisualStyleBackColor = false;
-            this.colorButton5.Click += new System.EventHandler(this.colorButton_SetPenColor);
+            this.colorButton5.Click += new System.EventHandler(this.ColorButton_SetPenColor);
             // 
             // colorButton6
             // 
@@ -204,7 +204,7 @@
             this.colorButton6.Size = new System.Drawing.Size(30, 30);
             this.colorButton6.TabIndex = 5;
             this.colorButton6.UseVisualStyleBackColor = false;
-            this.colorButton6.Click += new System.EventHandler(this.colorButton_SetPenColor);
+            this.colorButton6.Click += new System.EventHandler(this.ColorButton_SetPenColor);
             // 
             // colorButton7
             // 
@@ -217,7 +217,7 @@
             this.colorButton7.Size = new System.Drawing.Size(30, 30);
             this.colorButton7.TabIndex = 6;
             this.colorButton7.UseVisualStyleBackColor = false;
-            this.colorButton7.Click += new System.EventHandler(this.colorButton_SetPenColor);
+            this.colorButton7.Click += new System.EventHandler(this.ColorButton_SetPenColor);
             // 
             // colorButton8
             // 
@@ -230,7 +230,7 @@
             this.colorButton8.Size = new System.Drawing.Size(30, 30);
             this.colorButton8.TabIndex = 7;
             this.colorButton8.UseVisualStyleBackColor = false;
-            this.colorButton8.Click += new System.EventHandler(this.colorButton_SetPenColor);
+            this.colorButton8.Click += new System.EventHandler(this.ColorButton_SetPenColor);
             // 
             // colorButton9
             // 
@@ -243,7 +243,7 @@
             this.colorButton9.Size = new System.Drawing.Size(30, 30);
             this.colorButton9.TabIndex = 8;
             this.colorButton9.UseVisualStyleBackColor = false;
-            this.colorButton9.Click += new System.EventHandler(this.colorButton_SetPenColor);
+            this.colorButton9.Click += new System.EventHandler(this.ColorButton_SetPenColor);
             // 
             // colorButton10
             // 
@@ -256,7 +256,7 @@
             this.colorButton10.Size = new System.Drawing.Size(30, 30);
             this.colorButton10.TabIndex = 9;
             this.colorButton10.UseVisualStyleBackColor = false;
-            this.colorButton10.Click += new System.EventHandler(this.colorButton_SetPenColor);
+            this.colorButton10.Click += new System.EventHandler(this.ColorButton_SetPenColor);
             // 
             // addColorButton
             // 
@@ -315,7 +315,7 @@
             this.clearCanvasButton.TabIndex = 0;
             this.clearCanvasButton.Text = "Clear";
             this.clearCanvasButton.UseVisualStyleBackColor = false;
-            this.clearCanvasButton.Click += new System.EventHandler(this.clearCanvasButton_Click);
+            this.clearCanvasButton.Click += new System.EventHandler(this.ClearCanvasButton_Click);
             // 
             // standarFiguresPanel
             // 
@@ -336,8 +336,9 @@
             this.standartFiguresFlowLayoutPanel.Controls.Add(this.button1);
             this.standartFiguresFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.standartFiguresFlowLayoutPanel.Location = new System.Drawing.Point(5, 30);
-            this.standartFiguresFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.standartFiguresFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(5);
             this.standartFiguresFlowLayoutPanel.Name = "standartFiguresFlowLayoutPanel";
+            this.standartFiguresFlowLayoutPanel.Padding = new System.Windows.Forms.Padding(5);
             this.standartFiguresFlowLayoutPanel.Size = new System.Drawing.Size(210, 90);
             this.standartFiguresFlowLayoutPanel.TabIndex = 5;
             // 
@@ -345,7 +346,7 @@
             // 
             this.button1.BackColor = System.Drawing.Color.DarkGray;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(5, 5);
+            this.button1.Location = new System.Drawing.Point(10, 10);
             this.button1.Margin = new System.Windows.Forms.Padding(5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(30, 30);
@@ -417,7 +418,7 @@
             this.penSizeTrackBar.Size = new System.Drawing.Size(210, 56);
             this.penSizeTrackBar.TabIndex = 1;
             this.penSizeTrackBar.Value = 10;
-            this.penSizeTrackBar.ValueChanged += new System.EventHandler(this.penSizeTrackBar_ValueChanged);
+            this.penSizeTrackBar.ValueChanged += new System.EventHandler(this.PenSizeTrackBar_ValueChanged);
             // 
             // penSizeLabel
             // 

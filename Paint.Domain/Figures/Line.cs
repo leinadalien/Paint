@@ -13,8 +13,7 @@
             {
                 startPoint = point;
                 isDrawing = true;
-                //Size size = new((int)pen.Width, (int)pen.Width);
-                //graphics.FillEllipse(pen.Brush, new(Point.Subtract(point, size / 2), size));
+                
             }
             graphics.DrawLine(pen, startPoint, point);
             if (point != startPoint)
