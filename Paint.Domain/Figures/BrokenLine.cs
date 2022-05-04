@@ -33,9 +33,5 @@
             }
         }
 
-        public void DrawTarget(Graphics graphics, Pen pen, Point point)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

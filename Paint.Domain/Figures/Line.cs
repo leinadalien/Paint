@@ -30,7 +30,10 @@
         {
             if (isDrawing)
             {
-                graphics.DrawLine(pen, startPoint, point);
+                if (point != startPoint)
+                {
+                    graphics.DrawLine(pen, startPoint, point);
+                }
             }
         }
     }
