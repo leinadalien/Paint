@@ -9,6 +9,8 @@ namespace Paint
         private Bitmap bitmap;
         private Graphics graphics;
         private Pen pen;
+        bool isPenPaletteOpen = true;
+        private SolidBrush brush;
         private Size penSize;
         private IFigure currentFigure;
         public PaintForm()
@@ -16,6 +18,7 @@ namespace Paint
             InitializeComponent();
             bitmap = new(canvas.Width, canvas.Height);
             graphics = Graphics.FromImage(bitmap);
+            brush = new SolidBrush(Color.Transparent);
             pen = new(Color.Black, penSizeTrackBar.Value);
             pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
             pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
@@ -35,7 +38,7 @@ namespace Paint
             {
                 Button button = new();
                 button.FlatStyle = FlatStyle.Flat;
-                button.Width = standartFiguresFlowLayoutPanel.ClientSize.Width- 40;
+                button.Width = standartFiguresFlowLayoutPanel.ClientSize.Width - 40;
                 button.Height = 30;
                 button.Margin = new(5, 5, 5, 5);
                 button.BackColor = Color.DarkGray;
@@ -53,7 +56,7 @@ namespace Paint
                     currentFigure = Factory.CreateFigure(figureType);
                 };
                 standartFiguresFlowLayoutPanel.Controls.Add(button);
-                
+
             }
 
         }
@@ -71,11 +74,11 @@ namespace Paint
             {
                 isMouseLeftButtonDown = false;
                 currentFigure.AddPoint(e.Location);
-                currentFigure.Draw(graphics, pen);
+                currentFigure.Draw(graphics, pen, brush);
             }
             if (e.Button == MouseButtons.Right)
             {
-                currentFigure.EndDrawing(graphics, pen);
+                currentFigure.EndDrawing(graphics, pen, brush);
             }
             canvas.Image = bitmap;
         }
@@ -88,16 +91,23 @@ namespace Paint
             {
                 tempGraphics.FillEllipse(pen.Brush, new(Point.Subtract(e.Location, penSize / 2), penSize));
             }
-            currentFigure.PreDraw(tempGraphics, pen, e.Location);
+            currentFigure.PreDraw(tempGraphics, pen, brush, e.Location);
             canvas.Image = tempBitmap;
             canvas.Refresh();
             tempGraphics.Dispose();
             tempBitmap.Dispose();
 
         }
-        private void ColorButton_SetPenColor(object sender, EventArgs e)
+        private void ColorButton_SetColor(object sender, EventArgs e)
         {
-            pen.Color = ((Button)sender).BackColor;
+            Color choosenColor = ((Button)sender).BackColor;
+            if (isPenPaletteOpen)
+            {
+                pen.Color = choosenColor;
+            } else
+            {
+                brush.Color = choosenColor;
+            }
         }
 
         private void PenSizeTrackBar_ValueChanged(object sender, EventArgs e)
@@ -112,10 +122,28 @@ namespace Paint
             canvas.Image = bitmap;
         }
 
-        private void undoButton_Click(object sender, EventArgs e)
+        private void UndoButton_Click(object sender, EventArgs e)
         {
             ClearCanvasButton_Click(sender, e);
 
+        }
+
+        private void PenColorLabel_Click(object sender, EventArgs e)
+        {
+            isPenPaletteOpen = true;
+            penColorLabel.BackColor = Color.FromArgb(64, 64, 64);
+            penColorLabel.ForeColor = Color.DarkGray;
+            fillColorLabel.BackColor = Color.Transparent;
+            fillColorLabel.ForeColor = Color.Black;
+        }
+
+        private void FillColorLabel_Click(object sender, EventArgs e)
+        {
+            isPenPaletteOpen = false;
+            fillColorLabel.BackColor = Color.FromArgb(64, 64, 64);
+            fillColorLabel.ForeColor = Color.DarkGray;
+            penColorLabel.BackColor = Color.Transparent;
+            penColorLabel.ForeColor = Color.Black;
         }
     }
 }

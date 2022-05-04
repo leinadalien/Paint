@@ -10,9 +10,9 @@ namespace Paint.Domain.Figures
     {
         public FigureType Type { get; }
         public void AddPoint(Point point);
-        public void PreDraw(Graphics graphics, Pen pen, Point tempPoint);
-        public void Draw(Graphics graphics, Pen pen);
-        public void EndDrawing(Graphics graphics, Pen pen);
+        public void PreDraw(Graphics graphics, Pen pen, Brush brush, Point tempPoint);
+        public void Draw(Graphics graphics, Pen pen, Brush brush);
+        public void EndDrawing(Graphics graphics, Pen pen, Brush brush);
         public void CancelDrawing();
     }
 }

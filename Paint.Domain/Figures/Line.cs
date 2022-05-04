@@ -6,7 +6,7 @@
         private Point endPoint;
         private bool isDrawing = false;
         public FigureType Type { get { return FigureType.Line; } }
-
+       
         public void AddPoint(Point point)
         {
             if (!isDrawing)
@@ -20,7 +20,7 @@
                 isDrawing = false;
             }
         }
-        public void PreDraw(Graphics graphics, Pen pen, Point tempPoint)
+        public void PreDraw(Graphics graphics, Pen pen, Brush brush, Point tempPoint)
         {
             if (isDrawing)
             {
@@ -36,7 +36,7 @@
                 }
             }
         }
-        public void Draw(Graphics graphics, Pen pen)
+        public void Draw(Graphics graphics, Pen pen, Brush brush)
         {
             if (endPoint != startPoint)
             {
@@ -49,7 +49,7 @@
                 graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(endPoint, penSize / 2), penSize));
             }
         }
-        public void EndDrawing(Graphics graphics, Pen pen)
+        public void EndDrawing(Graphics graphics, Pen pen, Brush brush)
         {
             CancelDrawing();
         }
