@@ -6,9 +6,9 @@
         private bool isDrawing = false;
         public FigureType Type { get { return FigureType.Rectangle; } }
         
-        public void CancelDrawing()
+        public void EndDrawing(Graphics graphics, Pen pen, Point point)
         {
-            isDrawing = false;
+            CancelDrawing();
         }
         
         public void Draw(Graphics graphics, Pen pen, Point point)
@@ -21,7 +21,7 @@
             PreDraw(graphics, pen, point);
             if (point != firstPoint)
             {
-                CancelDrawing();
+                EndDrawing(graphics, pen, firstPoint);
             }
         }
 
@@ -39,8 +39,16 @@
                 {
                     (startPoint.Y, endPoint.Y) = (point.Y, startPoint.Y);
                 }
-                graphics.DrawRectangle(pen, startPoint.X, startPoint.Y, endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
+                DrawBase(graphics, pen, startPoint.X, startPoint.Y, endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
             }
+        }
+        protected virtual void DrawBase(Graphics graphics, Pen pen, int startX, int startY, int width, int height)
+        {
+            graphics.DrawRectangle(pen, startX, startY, width, height);
+        }
+        public void CancelDrawing()
+        {
+            isDrawing = false;
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Paint
             }
             if (e.Button == MouseButtons.Right)
             {
-                currentFigure.CancelDrawing();
+                currentFigure.EndDrawing(graphics, pen, e.Location);
             }
             canvas.Image = bitmap;
         }

@@ -2,7 +2,7 @@
 {
     public class BrokenLine : IFigure
     {
-        private List<Point> points;
+        protected List<Point> points;
         public FigureType Type { get { return FigureType.BrokenLine; } }
         public BrokenLine()
         {
@@ -18,9 +18,9 @@
             graphics.DrawLines(pen, points.ToArray());
         }
 
-        public void CancelDrawing()
+        public virtual void EndDrawing(Graphics graphics, Pen pen, Point point)
         {
-            points.Clear();
+            CancelDrawing();
         }
 
         public void PreDraw(Graphics graphics, Pen pen, Point point)
@@ -33,5 +33,9 @@
             }
         }
 
+        public void CancelDrawing()
+        {
+            points.Clear();
+        }
     }
 }

@@ -1,42 +1,12 @@
 ﻿namespace Paint.Domain.Figures
 {
-    public class Polygon : IFigure
+    public class Polygon : BrokenLine
     {
-        private List<Point> points;
-        private Graphics _graphics;
-        private Pen _pen;
-        public FigureType Type { get { return FigureType.Polygon; } }
-        public Polygon()
+        public override void EndDrawing(Graphics graphics, Pen pen, Point point)
         {
-            points = new();
-        }
-        public void CancelDrawing()
-        {
-
-            _graphics.DrawPolygon(_pen, points.ToArray());
-            points.Clear();
-        }
-
-        public void Draw(Graphics graphics, Pen pen, Point point)
-        {
-            if (points.Count == 0)
-            {
-                points.Add(point);
-                _graphics = graphics;
-                _pen = pen;
-            }
-            points.Add(point);
-            graphics.DrawLines(pen, points.ToArray());
-        }
-
-        public void PreDraw(Graphics graphics, Pen pen, Point point)
-        {
-            if (points.Count > 0)
-            {
-                points.Add(point);
-                graphics.DrawLines(pen, points.ToArray());
-                points.RemoveAt(points.Count - 1);
-            }
+            graphics.FillPolygon(pen.Brush,points.ToArray());
+            graphics.DrawPolygon(pen, points.ToArray());
+            CancelDrawing();
         }
     }
 }
