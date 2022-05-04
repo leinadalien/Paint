@@ -41,7 +41,7 @@
                 } else
                 {
                     Size penSize = new((int)pen.Width, (int)pen.Width);
-                    graphics.FillEllipse(pen.Brush, new(Point.Subtract(point, penSize / 2), penSize));
+                    graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(point, penSize / 2), penSize));
                 }
             }
         }

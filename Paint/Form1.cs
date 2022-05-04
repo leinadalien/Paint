@@ -39,7 +39,10 @@ namespace Paint
                 button.Margin = new(5, 5, 5, 5);
                 button.BackColor = Color.DarkGray;
                 button.Text = figureType.ToString();
-                button.Click += (sender, EventArgs) => currentFigure = Factory.CreateFigure(figureType);
+                button.Click += (sender, EventArgs) =>
+                { 
+                    currentFigure = Factory.CreateFigure(figureType);
+                };
                 standartFiguresFlowLayoutPanel.Controls.Add(button);
             }
         }

@@ -39,7 +39,17 @@
                 {
                     (startPoint.Y, endPoint.Y) = (point.Y, startPoint.Y);
                 }
-                DrawBase(graphics, pen, startPoint.X, startPoint.Y, endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
+                if (startPoint.X != endPoint.X && startPoint.Y != endPoint.Y)
+                {
+                    DrawBase(graphics, pen, startPoint.X, startPoint.Y, endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
+                }
+                else
+                {
+                    if (startPoint != endPoint)
+                    {
+                        graphics.DrawLine(pen, startPoint, endPoint);
+                    }
+                }
             }
         }
         protected virtual void DrawBase(Graphics graphics, Pen pen, int startX, int startY, int width, int height)
