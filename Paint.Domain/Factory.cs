@@ -11,11 +11,11 @@ namespace Paint.Domain
                 case FigureType.Line:
                     return new Line();
                 /*case FigureType.Polygon:
-                    return new Polygon(points);
+                    return new Polygon();*/
                 case FigureType.Rectangle:
-                    return new Figures.Rectangle(points);
-                case FigureType.Ellipse:
-                    return new Ellipse(points);*/
+                    return new Figures.Rectangle();
+                /*case FigureType.Ellipse:
+                    return new Ellipse();*/
                 case FigureType.BrokenLine:
                     return new BrokenLine();
                 default:

@@ -30,16 +30,17 @@ namespace Paint
             standartFiguresFlowLayoutPanel.Margin = new(5, 5, 5, 5);
             standartFiguresFlowLayoutPanel.Padding = new(5, 5, 5, 5);
             standartFiguresFlowLayoutPanel.Controls.Clear();
-            foreach(FigureType figureType in Enum.GetValues(typeof(FigureType)))
+            foreach (FigureType figureType in Enum.GetValues(typeof(FigureType)))
             {
                 Button button = new();
                 button.FlatStyle = FlatStyle.Flat;
-                button.Width = standartFiguresFlowLayoutPanel.Width - 40;
+                button.Width = standartFiguresFlowLayoutPanel.ClientSize.Width- 40;
                 button.Height = 30;
+                button.Margin = new(5, 5, 5, 5);
                 button.BackColor = Color.DarkGray;
                 button.Text = figureType.ToString();
-                standartFiguresFlowLayoutPanel.Controls.Add(button);
                 button.Click += (sender, EventArgs) => currentFigure = Factory.CreateFigure(figureType);
+                standartFiguresFlowLayoutPanel.Controls.Add(button);
             }
         }
         private void Canvas_MouseDown(object sender, MouseEventArgs e)

@@ -1,18 +1,46 @@
 ﻿namespace Paint.Domain.Figures
 {
-    public class Rectangle //: IFigure
+    public class Rectangle : IFigure
     {
-        private List<Point> points;
-        public FigureType Type { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public Point StartPoint { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public void Draw(Graphics graphics, Pen pen)
+        private Point firstPoint;
+        private bool isDrawing = false;
+        public FigureType Type { get { return FigureType.Rectangle; } }
+        
+        public void CancelDrawing()
         {
-            throw new NotImplementedException();
+            isDrawing = false;
         }
-        public Rectangle(List<Point> points)
+        
+        public void Draw(Graphics graphics, Pen pen, Point point)
         {
-            this.points = points;
+            if (!isDrawing)
+            {
+                firstPoint = point;
+                isDrawing = true;
+            }
+            PreDraw(graphics, pen, point);
+            if (point != firstPoint)
+            {
+                CancelDrawing();
+            }
+        }
+
+        public void PreDraw(Graphics graphics, Pen pen, Point point)
+        {
+            if (isDrawing)
+            {
+                Point startPoint = firstPoint;
+                Point endPoint = point;
+                if (point.X < startPoint.X)
+                {
+                    (startPoint.X, endPoint.X) = (point.X, startPoint.X);
+                }
+                if (point.Y < startPoint.Y)
+                {
+                    (startPoint.Y, endPoint.Y) = (point.Y, startPoint.Y);
+                }
+                graphics.DrawRectangle(pen, startPoint.X, startPoint.Y, endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
+            }
         }
     }
 }

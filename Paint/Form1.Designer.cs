@@ -45,12 +45,12 @@
             this.addColorButton = new System.Windows.Forms.Button();
             this.paletteLabel = new System.Windows.Forms.Label();
             this.toolsPanel = new System.Windows.Forms.Panel();
-            this.undoRedoPanel = new System.Windows.Forms.Panel();
-            this.RedoButton = new System.Windows.Forms.Button();
-            this.undoButton = new System.Windows.Forms.Button();
             this.standarFiguresPanel = new System.Windows.Forms.Panel();
             this.standartFiguresFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.StandartFiguresLabel = new System.Windows.Forms.Label();
+            this.undoRedoPanel = new System.Windows.Forms.Panel();
+            this.RedoButton = new System.Windows.Forms.Button();
+            this.undoButton = new System.Windows.Forms.Button();
             this.penSizePanel = new System.Windows.Forms.Panel();
             this.minPenSizeLabel = new System.Windows.Forms.Label();
             this.maxPenSizeLabel = new System.Windows.Forms.Label();
@@ -63,8 +63,8 @@
             this.palettePanel.SuspendLayout();
             this.paletteFlowLayoutPanel.SuspendLayout();
             this.toolsPanel.SuspendLayout();
-            this.undoRedoPanel.SuspendLayout();
             this.standarFiguresPanel.SuspendLayout();
+            this.undoRedoPanel.SuspendLayout();
             this.penSizePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.penSizeTrackBar)).BeginInit();
             this.clearCanvasPanel.SuspendLayout();
@@ -299,6 +299,44 @@
             this.toolsPanel.Size = new System.Drawing.Size(230, 673);
             this.toolsPanel.TabIndex = 4;
             // 
+            // standarFiguresPanel
+            // 
+            this.standarFiguresPanel.BackColor = System.Drawing.Color.Transparent;
+            this.standarFiguresPanel.Controls.Add(this.standartFiguresFlowLayoutPanel);
+            this.standarFiguresPanel.Controls.Add(this.StandartFiguresLabel);
+            this.standarFiguresPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.standarFiguresPanel.Location = new System.Drawing.Point(5, 256);
+            this.standarFiguresPanel.Margin = new System.Windows.Forms.Padding(5);
+            this.standarFiguresPanel.Name = "standarFiguresPanel";
+            this.standarFiguresPanel.Padding = new System.Windows.Forms.Padding(5);
+            this.standarFiguresPanel.Size = new System.Drawing.Size(220, 229);
+            this.standarFiguresPanel.TabIndex = 1;
+            // 
+            // standartFiguresFlowLayoutPanel
+            // 
+            this.standartFiguresFlowLayoutPanel.AutoScroll = true;
+            this.standartFiguresFlowLayoutPanel.AutoSize = true;
+            this.standartFiguresFlowLayoutPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.standartFiguresFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.standartFiguresFlowLayoutPanel.Location = new System.Drawing.Point(5, 30);
+            this.standartFiguresFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(5);
+            this.standartFiguresFlowLayoutPanel.Name = "standartFiguresFlowLayoutPanel";
+            this.standartFiguresFlowLayoutPanel.Padding = new System.Windows.Forms.Padding(5);
+            this.standartFiguresFlowLayoutPanel.Size = new System.Drawing.Size(210, 194);
+            this.standartFiguresFlowLayoutPanel.TabIndex = 5;
+            // 
+            // StandartFiguresLabel
+            // 
+            this.StandartFiguresLabel.BackColor = System.Drawing.Color.Gray;
+            this.StandartFiguresLabel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.StandartFiguresLabel.Location = new System.Drawing.Point(5, 5);
+            this.StandartFiguresLabel.Margin = new System.Windows.Forms.Padding(5);
+            this.StandartFiguresLabel.Name = "StandartFiguresLabel";
+            this.StandartFiguresLabel.Size = new System.Drawing.Size(210, 25);
+            this.StandartFiguresLabel.TabIndex = 0;
+            this.StandartFiguresLabel.Text = "Standart figures";
+            this.StandartFiguresLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // undoRedoPanel
             // 
             this.undoRedoPanel.Controls.Add(this.RedoButton);
@@ -334,42 +372,6 @@
             this.undoButton.TabIndex = 0;
             this.undoButton.Text = "Undo";
             this.undoButton.UseVisualStyleBackColor = false;
-            // 
-            // standarFiguresPanel
-            // 
-            this.standarFiguresPanel.BackColor = System.Drawing.Color.Transparent;
-            this.standarFiguresPanel.Controls.Add(this.standartFiguresFlowLayoutPanel);
-            this.standarFiguresPanel.Controls.Add(this.StandartFiguresLabel);
-            this.standarFiguresPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.standarFiguresPanel.Location = new System.Drawing.Point(5, 256);
-            this.standarFiguresPanel.Margin = new System.Windows.Forms.Padding(5);
-            this.standarFiguresPanel.Name = "standarFiguresPanel";
-            this.standarFiguresPanel.Padding = new System.Windows.Forms.Padding(5);
-            this.standarFiguresPanel.Size = new System.Drawing.Size(220, 229);
-            this.standarFiguresPanel.TabIndex = 1;
-            // 
-            // standartFiguresFlowLayoutPanel
-            // 
-            this.standartFiguresFlowLayoutPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.standartFiguresFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.standartFiguresFlowLayoutPanel.Location = new System.Drawing.Point(5, 30);
-            this.standartFiguresFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(5);
-            this.standartFiguresFlowLayoutPanel.Name = "standartFiguresFlowLayoutPanel";
-            this.standartFiguresFlowLayoutPanel.Padding = new System.Windows.Forms.Padding(5);
-            this.standartFiguresFlowLayoutPanel.Size = new System.Drawing.Size(210, 194);
-            this.standartFiguresFlowLayoutPanel.TabIndex = 5;
-            // 
-            // StandartFiguresLabel
-            // 
-            this.StandartFiguresLabel.BackColor = System.Drawing.Color.Gray;
-            this.StandartFiguresLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.StandartFiguresLabel.Location = new System.Drawing.Point(5, 5);
-            this.StandartFiguresLabel.Margin = new System.Windows.Forms.Padding(5);
-            this.StandartFiguresLabel.Name = "StandartFiguresLabel";
-            this.StandartFiguresLabel.Size = new System.Drawing.Size(210, 25);
-            this.StandartFiguresLabel.TabIndex = 0;
-            this.StandartFiguresLabel.Text = "Standart figures";
-            this.StandartFiguresLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // penSizePanel
             // 
@@ -478,8 +480,9 @@
             this.paletteFlowLayoutPanel.ResumeLayout(false);
             this.toolsPanel.ResumeLayout(false);
             this.toolsPanel.PerformLayout();
-            this.undoRedoPanel.ResumeLayout(false);
             this.standarFiguresPanel.ResumeLayout(false);
+            this.standarFiguresPanel.PerformLayout();
+            this.undoRedoPanel.ResumeLayout(false);
             this.penSizePanel.ResumeLayout(false);
             this.penSizePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.penSizeTrackBar)).EndInit();

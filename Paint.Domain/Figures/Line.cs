@@ -15,7 +15,7 @@
                 isDrawing = true;
                 
             }
-            graphics.DrawLine(pen, startPoint, point);
+            PreDraw(graphics, pen, point);
             if (point != startPoint)
             {
                 CancelDrawing();
