@@ -3,47 +3,63 @@
     public class Line : IFigure
     {
         private Point startPoint;
+        private Point endPoint;
         private bool isDrawing = false;
-
         public FigureType Type { get { return FigureType.Line; } }
 
-        public void CancelDrawing()
-        {
-            isDrawing = false;
-        }
-
-        public void Draw(Graphics graphics, Pen pen, Point point)
+        public void AddPoint(Point point)
         {
             if (!isDrawing)
             {
                 startPoint = point;
+                endPoint = point;
                 isDrawing = true;
-                
-            }
-            PreDraw(graphics, pen, point);
-            if (point != startPoint)
+            } else
             {
-                EndDrawing(graphics, pen, point);
+                endPoint = point;
+                isDrawing = false;
             }
         }
-
-        public void EndDrawing(Graphics graphics, Pen pen, Point point)
-        {
-            CancelDrawing();
-        }
-        public void PreDraw(Graphics graphics, Pen pen, Point point)
+        public void PreDraw(Graphics graphics, Pen pen, Point tempPoint)
         {
             if (isDrawing)
             {
-                if (point != startPoint)
+                endPoint = tempPoint;
+                if (tempPoint != startPoint)
                 {
-                    graphics.DrawLine(pen, startPoint, point);
-                } else
+                    DrawBase(graphics, pen);
+                }
+                else
                 {
                     Size penSize = new((int)pen.Width, (int)pen.Width);
-                    graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(point, penSize / 2), penSize));
+                    graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(endPoint, penSize / 2), penSize));
                 }
             }
+        }
+        public void Draw(Graphics graphics, Pen pen)
+        {
+            if (endPoint != startPoint)
+            {
+                DrawBase(graphics, pen);
+                CancelDrawing();
+            }
+            else
+            {
+                Size penSize = new((int)pen.Width, (int)pen.Width);
+                graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(endPoint, penSize / 2), penSize));
+            }
+        }
+        public void EndDrawing(Graphics graphics, Pen pen)
+        {
+            CancelDrawing();
+        }
+        protected virtual void DrawBase(Graphics graphics, Pen pen)
+        {
+            graphics.DrawLine(pen, startPoint, endPoint); 
+        }
+        public void CancelDrawing()
+        {
+            isDrawing = false;
         }
     }
 }

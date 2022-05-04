@@ -2,46 +2,43 @@
 {
     public class Rectangle : IFigure
     {
+        protected Point startPoint;
+        protected Point endPoint;
         private Point firstPoint;
         private bool isDrawing = false;
         public FigureType Type { get { return FigureType.Rectangle; } }
-        
-        public void EndDrawing(Graphics graphics, Pen pen, Point point)
-        {
-            CancelDrawing();
-        }
-        
-        public void Draw(Graphics graphics, Pen pen, Point point)
+        public void AddPoint(Point point)
         {
             if (!isDrawing)
             {
                 firstPoint = point;
+                startPoint = point;
+                endPoint = point;
                 isDrawing = true;
             }
-            PreDraw(graphics, pen, point);
-            if (point != firstPoint)
+            else
             {
-                EndDrawing(graphics, pen, firstPoint);
+                endPoint = point;
+                isDrawing = false;
             }
         }
-
-        public void PreDraw(Graphics graphics, Pen pen, Point point)
+        public void PreDraw(Graphics graphics, Pen pen, Point tempPoint)
         {
             if (isDrawing)
             {
-                Point startPoint = firstPoint;
-                Point endPoint = point;
-                if (point.X < startPoint.X)
+                startPoint = firstPoint;
+                endPoint = tempPoint;
+                if (tempPoint.X < startPoint.X)
                 {
-                    (startPoint.X, endPoint.X) = (point.X, startPoint.X);
+                    (startPoint.X, endPoint.X) = (tempPoint.X, startPoint.X);
                 }
-                if (point.Y < startPoint.Y)
+                if (tempPoint.Y < startPoint.Y)
                 {
-                    (startPoint.Y, endPoint.Y) = (point.Y, startPoint.Y);
+                    (startPoint.Y, endPoint.Y) = (tempPoint.Y, startPoint.Y);
                 }
                 if (startPoint.X != endPoint.X && startPoint.Y != endPoint.Y)
                 {
-                    DrawBase(graphics, pen, startPoint.X, startPoint.Y, endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
+                    DrawBase(graphics, pen);
                 }
                 else
                 {
@@ -52,9 +49,40 @@
                 }
             }
         }
-        protected virtual void DrawBase(Graphics graphics, Pen pen, int startX, int startY, int width, int height)
+        public void Draw(Graphics graphics, Pen pen)
         {
-            graphics.DrawRectangle(pen, startX, startY, width, height);
+            if (endPoint.X < firstPoint.X)
+            {
+                (startPoint.X, endPoint.X) = (endPoint.X, firstPoint.X);
+            }
+            if (endPoint.Y < firstPoint.Y)
+            {
+                (startPoint.Y, endPoint.Y) = (endPoint.Y, firstPoint.Y);
+            }
+            if (startPoint.X != endPoint.X && startPoint.Y != endPoint.Y)
+            {
+                DrawBase(graphics, pen);
+            }
+            else
+            {
+                if (startPoint != endPoint)
+                {
+                    graphics.DrawLine(pen, startPoint, endPoint);
+                }
+                else
+                {
+                    Size penSize = new((int)pen.Width, (int)pen.Width);
+                    graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(endPoint, penSize / 2), penSize));
+                }
+            }
+        }
+        public void EndDrawing(Graphics graphics, Pen pen)
+        {
+            CancelDrawing();
+        }
+        protected virtual void DrawBase(Graphics graphics, Pen pen)
+        {
+            graphics.DrawRectangle(pen, new(startPoint.X, startPoint.Y, endPoint.X - startPoint.X, endPoint.Y - startPoint.Y));
         }
         public void CancelDrawing()
         {

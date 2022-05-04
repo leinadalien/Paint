@@ -42,7 +42,7 @@
             this.colorButton8 = new System.Windows.Forms.Button();
             this.colorButton9 = new System.Windows.Forms.Button();
             this.colorButton10 = new System.Windows.Forms.Button();
-            this.addColorButton = new System.Windows.Forms.Button();
+            this.Ы = new System.Windows.Forms.Button();
             this.paletteLabel = new System.Windows.Forms.Label();
             this.toolsPanel = new System.Windows.Forms.Panel();
             this.standarFiguresPanel = new System.Windows.Forms.Panel();
@@ -121,7 +121,7 @@
             this.paletteFlowLayoutPanel.Controls.Add(this.colorButton8);
             this.paletteFlowLayoutPanel.Controls.Add(this.colorButton9);
             this.paletteFlowLayoutPanel.Controls.Add(this.colorButton10);
-            this.paletteFlowLayoutPanel.Controls.Add(this.addColorButton);
+            this.paletteFlowLayoutPanel.Controls.Add(this.Ы);
             this.paletteFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.paletteFlowLayoutPanel.Location = new System.Drawing.Point(5, 30);
             this.paletteFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(5);
@@ -260,16 +260,16 @@
             this.colorButton10.UseVisualStyleBackColor = false;
             this.colorButton10.Click += new System.EventHandler(this.ColorButton_SetPenColor);
             // 
-            // addColorButton
+            // Ы
             // 
-            this.addColorButton.BackColor = System.Drawing.Color.DarkGray;
-            this.addColorButton.Location = new System.Drawing.Point(10, 90);
-            this.addColorButton.Margin = new System.Windows.Forms.Padding(5);
-            this.addColorButton.Name = "addColorButton";
-            this.addColorButton.Size = new System.Drawing.Size(190, 30);
-            this.addColorButton.TabIndex = 10;
-            this.addColorButton.Text = "Another color";
-            this.addColorButton.UseVisualStyleBackColor = false;
+            this.Ы.BackColor = System.Drawing.Color.DarkGray;
+            this.Ы.Location = new System.Drawing.Point(10, 90);
+            this.Ы.Margin = new System.Windows.Forms.Padding(5);
+            this.Ы.Name = "Ы";
+            this.Ы.Size = new System.Drawing.Size(190, 30);
+            this.Ы.TabIndex = 10;
+            this.Ы.Text = "Another color";
+            this.Ы.UseVisualStyleBackColor = false;
             // 
             // paletteLabel
             // 
@@ -372,6 +372,7 @@
             this.undoButton.TabIndex = 0;
             this.undoButton.Text = "Undo";
             this.undoButton.UseVisualStyleBackColor = false;
+            this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
             // 
             // penSizePanel
             // 
@@ -496,7 +497,7 @@
         private Panel canvasPanel;
         private PictureBox canvas;
         private Panel toolsPanel;
-        private Button addColorButton;
+        private Button Ы;
         private Button colorButton10;
         private Button colorButton9;
         private Button colorButton8;

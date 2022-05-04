@@ -8,44 +8,49 @@
         {
             points = new();
         }
-        public void Draw(Graphics graphics, Pen pen, Point point)
+        public void AddPoint(Point point)
         {
-            if (points.Count == 0)
-            {
-                points.Add(point);
-            }
             points.Add(point);
-            graphics.DrawLines(pen, points.ToArray());
         }
-
-        public virtual void EndDrawing(Graphics graphics, Pen pen, Point point)
-        {
-            CancelDrawing();
-        }
-
-        public void PreDraw(Graphics graphics, Pen pen, Point point)
+        public void PreDraw(Graphics graphics, Pen pen, Point tempPoint)
         {
             if (points.Count > 0)
             {
-                if (point != points.First())
+                points.Add(tempPoint);
+                if (points.Count > 1 && tempPoint != points.First())
                 {
-                    points.Add(point);
-                    graphics.DrawLines(pen, points.ToArray());
-                    points.RemoveAt(points.Count - 1);
-                }
-                else
+                    DrawBase(graphics, pen);
+                } else
                 {
                     Size penSize = new((int)pen.Width, (int)pen.Width);
-                    graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(point, penSize / 2), penSize));
+                    graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(tempPoint, penSize / 2), penSize));
                 }
-
+                points.RemoveAt(points.Count - 1);
             }
-            
         }
-
+        public void Draw(Graphics graphics, Pen pen)
+        {
+            if (points.Count == 1)
+            {
+                Size penSize = new((int)pen.Width, (int)pen.Width);
+                graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(points.First(), penSize / 2), penSize));
+            } else
+            {
+                DrawBase(graphics, pen);
+            }
+        }
+        public virtual void EndDrawing(Graphics graphics, Pen pen)
+        {
+            CancelDrawing();
+        }
+        protected virtual void DrawBase(Graphics graphics, Pen pen)
+        {
+            graphics.DrawLines(pen, points.ToArray());
+        }
         public void CancelDrawing()
         {
             points.Clear();
         }
+        
     }
 }

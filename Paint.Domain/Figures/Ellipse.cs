@@ -2,9 +2,9 @@
 {
     public class Ellipse : Rectangle
     {
-        protected override void DrawBase(Graphics graphics, Pen pen, int startX, int startY, int width, int height)
+        protected override void DrawBase(Graphics graphics, Pen pen)
         {
-            graphics.DrawEllipse(pen, startX, startY, width, height);
+            graphics.DrawEllipse(pen, new(startPoint.X, startPoint.Y, endPoint.X - startPoint.X, endPoint.Y - startPoint.Y));
         }
     }
 }

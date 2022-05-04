@@ -25,6 +25,7 @@ namespace Paint
         }
         private void LoadStandartFigures()
         {
+            Button currentButton = new();
             standartFiguresFlowLayoutPanel.FlowDirection = FlowDirection.LeftToRight;
             standartFiguresFlowLayoutPanel.AutoScroll = true;
             standartFiguresFlowLayoutPanel.Margin = new(5, 5, 5, 5);
@@ -39,12 +40,22 @@ namespace Paint
                 button.Margin = new(5, 5, 5, 5);
                 button.BackColor = Color.DarkGray;
                 button.Text = figureType.ToString();
+                if (figureType == currentFigure.Type)
+                {
+                    currentButton = button;
+                    button.BackColor = Color.LightGray;
+                }
                 button.Click += (sender, EventArgs) =>
-                { 
+                {
+                    currentButton.BackColor = Color.DarkGray;
+                    currentButton = button;
+                    button.BackColor = Color.LightGray;
                     currentFigure = Factory.CreateFigure(figureType);
                 };
                 standartFiguresFlowLayoutPanel.Controls.Add(button);
+                
             }
+
         }
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
@@ -59,11 +70,12 @@ namespace Paint
             if (e.Button == MouseButtons.Left)
             {
                 isMouseLeftButtonDown = false;
-                currentFigure.Draw(graphics, pen, e.Location);
+                currentFigure.AddPoint(e.Location);
+                currentFigure.Draw(graphics, pen);
             }
             if (e.Button == MouseButtons.Right)
             {
-                currentFigure.EndDrawing(graphics, pen, e.Location);
+                currentFigure.EndDrawing(graphics, pen);
             }
             canvas.Image = bitmap;
         }
@@ -98,6 +110,12 @@ namespace Paint
             graphics.Clear(Color.White);
             currentFigure.CancelDrawing();
             canvas.Image = bitmap;
+        }
+
+        private void undoButton_Click(object sender, EventArgs e)
+        {
+            ClearCanvasButton_Click(sender, e);
+
         }
     }
 }
