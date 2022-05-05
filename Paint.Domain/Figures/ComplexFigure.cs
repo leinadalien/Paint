@@ -7,7 +7,7 @@ namespace Paint.Domain.Figures
     public abstract class ComplexFigure : Figure, IFigure
     {
         protected List<Point> points;
-        public virtual FigureType Type { get; }
+        public abstract FigureType Type { get; }
         public Color FillColor { get { return brush.Color; } set { brush.Color = value; } }
         public Color StrokeColor { get { return pen.Color; } set { pen.Color = value; } }
         public int StrokeWidth { get { return (int)pen.Width; } set { pen.Width = value; } }
