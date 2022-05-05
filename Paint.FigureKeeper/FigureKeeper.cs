@@ -7,86 +7,61 @@ namespace Paint.FigureKeeper
         private Graphics graphics;
         private List<IFigure> figuresList;
         private Stack<IFigure> redoStack;
-        private int undoPointer;
-        private int figuresPointer;
-        private List<(int startPointer, int endPointer)> figurePointers;
+        private List<int> startDrawingPointers;
         public FigureKeeper(Graphics graphics)
         {
             this.graphics = graphics;
             figuresList = new();
             redoStack = new();
-            figurePointers = new();
-            figurePointers.Add((0, -1));
-            undoPointer = 0;
-            figuresPointer = -1;
+            startDrawingPointers = new();
+            startDrawingPointers.Add(0);
         }
         public void AddFigure(IFigure figure)
         {
-            figuresPointer++;
-            if (redoStack.Count > 0)
-            {
-                List<IFigure> temp = new(figuresList);
-                figuresList.Clear();
-                for (int i = 0; i < figuresPointer; i++)
-                {
-                    figuresList.Add(temp[i]);
-                }
-            }
             figuresList.Add(figure);
-            figurePointers[undoPointer] = (figurePointers[undoPointer].startPointer, figuresPointer);
-            redoStack.Clear();   
+            redoStack.Clear();
         }
         public void ClearCanvas()
         {
-            if (figurePointers[undoPointer].endPointer - figurePointers[undoPointer].startPointer != -1)
+            if (startDrawingPointers.Last() != figuresList.Count)
             {
-                figurePointers.Add((figurePointers[undoPointer].endPointer + 1, figuresPointer));
-                undoPointer++;
+                startDrawingPointers.Add(figuresList.Count);
                 redoStack.Clear();
             }
         }
         public void DrawFigures()
         {
             graphics.Clear(Color.White);
-            for(int i = figurePointers[undoPointer].startPointer; i <= figuresPointer; i++)
+            for(int i = startDrawingPointers.Last(); i < figuresList.Count; i++)
             {
                 figuresList[i].Draw(graphics);
             }
         }
         public void Undo()
         {
-            
-            if (figuresPointer >= 0)
+            if (figuresList.Count > 0)
             {
-                if (figuresPointer < figurePointers[undoPointer].startPointer)
+                if (startDrawingPointers.Last() != figuresList.Count)
                 {
-                    undoPointer--;
-                } else
+                    redoStack.Push(figuresList.Last());
+                    figuresList.RemoveAt(figuresList.Count - 1);
+                }
+                else
                 {
-                    redoStack.Push(figuresList.ElementAt(figuresPointer));
-                    figuresPointer--;
+                    startDrawingPointers.RemoveAt(startDrawingPointers.Count - 1);
                 }
                 DrawFigures();
             }
-            
         }
         public void Redo()
         {
-            if (figuresPointer == figurePointers[undoPointer].endPointer)
+            if (redoStack.Count > 0)
             {
-                if(undoPointer < figurePointers.Count - 1)
+                if (startDrawingPointers.Last() != figuresList.Count)
                 {
-                    undoPointer++;
-                    DrawFigures();
+                    figuresList.Add(redoStack.Pop());
                 }
-            }
-            else
-            {
-                if (redoStack.Count > 0)
-                {
-                    figuresPointer++;
-                    redoStack.Pop().Draw(graphics);
-                }
+                DrawFigures();
             }
         }
     }
