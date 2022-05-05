@@ -5,7 +5,7 @@ namespace Paint.FigureKeeper
     public class FigureKeeper
     {
         private Graphics graphics;
-        private List<IFigure> undoList;
+        private List<IFigure> figuresList;
         private Stack<IFigure> redoStack;
         private int undoPointer;
         private int figuresPointer;
@@ -13,7 +13,7 @@ namespace Paint.FigureKeeper
         public FigureKeeper(Graphics graphics)
         {
             this.graphics = graphics;
-            undoList = new();
+            figuresList = new();
             redoStack = new();
             figurePointers = new();
             figurePointers.Add((0, -1));
@@ -22,7 +22,7 @@ namespace Paint.FigureKeeper
         }
         public void AddFigure(IFigure figure)
         {
-            undoList.Add(figure);
+            figuresList.Add(figure);
             figuresPointer++;
             figurePointers[undoPointer] = (figurePointers[undoPointer].startPointer, figuresPointer);
             redoStack.Clear();
@@ -30,15 +30,18 @@ namespace Paint.FigureKeeper
         }
         public void ClearCanvas()
         {
-            figurePointers.Add((figurePointers[undoPointer].endPointer + 1, figuresPointer));
-            undoPointer++;
+            if (figurePointers[undoPointer].endPointer - figurePointers[undoPointer].startPointer != -1)
+            {
+                figurePointers.Add((figurePointers[undoPointer].endPointer + 1, figuresPointer));
+                undoPointer++;
+            }
         }
         public void DrawFigures()
         {
             graphics.Clear(Color.White);
             for(int i = figurePointers[undoPointer].startPointer; i <= figuresPointer; i++)
             {
-                undoList[i].Draw(graphics);
+                figuresList[i].Draw(graphics);
             }
         }
         public void Undo()
@@ -51,7 +54,7 @@ namespace Paint.FigureKeeper
                     undoPointer--;
                 } else
                 {
-                    redoStack.Push(undoList.ElementAt(figuresPointer));
+                    redoStack.Push(figuresList.ElementAt(figuresPointer));
                     figuresPointer--;
                 }
                 DrawFigures();
