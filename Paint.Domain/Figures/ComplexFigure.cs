@@ -46,7 +46,7 @@
         public override void CancelDrawing()
         {
             points.Clear();
-            isDrawing = false;
+            base.CancelDrawing();
         }
     }
 }

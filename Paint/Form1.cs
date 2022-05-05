@@ -25,6 +25,18 @@ namespace Paint
             figureKeeper = new(graphics);
             LoadStandartFigures();
         }
+        private void CurrentFigureUpdate()
+        {
+            currentFigure.CancelDrawing();
+            currentFigure.FillColor = fillColor;
+            currentFigure.StrokeColor = strokeColor;
+            currentFigure.StrokeWidth = strokeWidth;
+        }
+        private void PenUpdate()
+        {
+            pen.Color = strokeColor;
+            pen.Width = strokeWidth;
+        }
         private void LoadStandartFigures()
         {
             Button currentButton = new();
@@ -55,9 +67,7 @@ namespace Paint
                     currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, figureType);
                 };
                 standartFiguresFlowLayoutPanel.Controls.Add(button);
-
             }
-
         }
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
@@ -83,8 +93,11 @@ namespace Paint
             if (e.Button == MouseButtons.Right)
             {
                 currentFigure.EndDrawing(graphics);
-                figureKeeper.AddFigure(currentFigure);
-                currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, currentFigure.Type);
+                if (!currentFigure.DrawingCanceled)
+                {
+                    figureKeeper.AddFigure(currentFigure);
+                    currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, currentFigure.Type);
+                }
                 
             }
             canvas.Image = bitmap;
@@ -107,21 +120,22 @@ namespace Paint
         private void ColorButton_SetColor(object sender, EventArgs e)
         {
             Color choosenColor = ((Button)sender).BackColor;
-            pen.Color = choosenColor;
             if (isPenPaletteOpen)
             {
                 strokeColor = choosenColor;
-                currentFigure.StrokeColor = choosenColor;
             } else
             {
                 fillColor = choosenColor;
-                currentFigure.FillColor = choosenColor;
             }
+            PenUpdate();
+            CurrentFigureUpdate();
         }
         private void PenSizeTrackBar_ValueChanged(object sender, EventArgs e)
         {
             strokeWidth = penSizeTrackBar.Value;
             currentFigure.StrokeWidth = penSizeTrackBar.Value;
+            PenUpdate();
+            CurrentFigureUpdate();
         }
         private void ClearCanvasButton_Click(object sender, EventArgs e)
         {

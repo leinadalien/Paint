@@ -24,7 +24,7 @@ namespace Paint.Domain.Figures
             else
             {
                 endPoint = point;
-                CancelDrawing();
+                isDrawing = false;
             }
         }
         public override void PreDraw(Graphics graphics, Point tempPoint)
@@ -75,12 +75,10 @@ namespace Paint.Domain.Figures
         }
         public override void EndDrawing(Graphics graphics)
         {
-            Draw(graphics);
-            isDrawing = false;
-        }
-        public override void CancelDrawing()
-        {
-            isDrawing = false;
+            if (isDrawing)
+            {
+                CancelDrawing();
+            }
         }
     }
 }

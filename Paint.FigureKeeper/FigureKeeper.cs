@@ -42,6 +42,7 @@ namespace Paint.FigureKeeper
             {
                 figurePointers.Add((figurePointers[undoPointer].endPointer + 1, figuresPointer));
                 undoPointer++;
+                redoStack.Clear();
             }
         }
         public void DrawFigures()

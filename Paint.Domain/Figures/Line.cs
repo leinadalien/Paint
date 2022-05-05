@@ -16,7 +16,8 @@
                 startPoint = point;
                 endPoint = point;
                 isDrawing = true;
-            } else
+            }
+            else
             {
                 endPoint = point;
                 isDrawing = false;
@@ -43,21 +44,19 @@
             if (endPoint != startPoint)
             {
                 DrawBase(graphics);
-                CancelDrawing();
+                isDrawing = false;
             }
         }
         public override void EndDrawing(Graphics graphics)
         {
-            Draw(graphics);
-            isDrawing = false;
+            if (isDrawing)
+            {
+                CancelDrawing();
+            }
         }
         protected override void DrawBase(Graphics graphics)
         {
             graphics.DrawLine(pen, startPoint, endPoint); 
-        }
-        public override void CancelDrawing()
-        {
-            isDrawing = false;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Paint.Domain.Figures
         public Color StrokeColor { get; set; }
         public int StrokeWidth { get; set; }
         public bool IsDrawing { get; }
+        public bool DrawingCanceled { get; }
         public void AddPoint(Point point);
         public void PreDraw(Graphics graphics,Point tempPoint);
         public void Draw(Graphics graphics);

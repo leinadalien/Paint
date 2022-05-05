@@ -13,8 +13,12 @@
             {
                 graphics.FillPolygon(brush, points.ToArray());
                 graphics.DrawPolygon(pen, points.ToArray());
+                isDrawing = false;
             }
-            isDrawing = false;
+            else
+            {
+                CancelDrawing();
+            }
         }
         protected override void DrawBase(Graphics graphics)
         {

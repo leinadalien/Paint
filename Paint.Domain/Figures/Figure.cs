@@ -3,6 +3,7 @@
     public abstract class Figure : IFigure
     {
         protected bool isDrawing = false;
+        protected bool drawingCanceled = false;
         protected Pen pen;
         protected SolidBrush brush;
         protected string name;
@@ -17,6 +18,7 @@
             brush = new(fillColor);
         }
         public string Name { get { return name; } }
+        public bool DrawingCanceled { get { return drawingCanceled; } }
         public FigureType Type { get { return type; } }
         public Color FillColor { get { return brush.Color; } set { brush.Color = value; } }
         public Color StrokeColor { get { return pen.Color; } set { pen.Color = value; } }
@@ -26,7 +28,11 @@
         public abstract void PreDraw(Graphics graphics, Point tempPoint);
         public abstract void Draw(Graphics graphics);
         public abstract void EndDrawing(Graphics graphics);
-        public abstract void CancelDrawing();
+        public virtual void CancelDrawing()
+        {
+            isDrawing = false;
+            drawingCanceled = true;
+        }
         protected abstract void DrawBase(Graphics graphics);
     }
 }

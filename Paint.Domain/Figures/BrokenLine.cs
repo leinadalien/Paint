@@ -12,8 +12,12 @@
             if (points.Count != 0)
             {
                 graphics.DrawLines(pen, points.ToArray());
+                isDrawing = false;
             }
-            isDrawing = false;
+            else
+            {
+                CancelDrawing();
+            }
         }
         protected override void DrawBase(Graphics graphics)
         {

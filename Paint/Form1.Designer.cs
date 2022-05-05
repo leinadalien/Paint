@@ -364,7 +364,7 @@
             this.standartFiguresLabel.Name = "standartFiguresLabel";
             this.standartFiguresLabel.Size = new System.Drawing.Size(210, 25);
             this.standartFiguresLabel.TabIndex = 0;
-            this.standartFiguresLabel.Text = "Standart figures";
+            this.standartFiguresLabel.Text = "Figures";
             this.standartFiguresLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // undoRedoPanel
