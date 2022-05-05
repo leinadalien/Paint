@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace Paint.Domain.Figures
 {
-    public abstract class SimpleFigure : Figure, IFigure
+    public abstract class SimpleFigure : Figure
     {
         protected Point startPoint;
         protected Point endPoint;
         private Point firstPoint;
-        public abstract FigureType Type { get;  }
-        public Color FillColor { get { return brush.Color; } set { brush.Color = value; } }
-        public Color StrokeColor { get { return pen.Color; } set { pen.Color = value; } }
-        public int StrokeWidth { get { return (int)pen.Width; } set { pen.Width = value; } }
-        public bool IsDrawing { get { return isDrawing; } }
-        public void AddPoint(Point point)
+        protected SimpleFigure(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
+        public override void AddPoint(Point point)
         {
             if (!isDrawing)
             {
@@ -31,7 +27,7 @@ namespace Paint.Domain.Figures
                 CancelDrawing();
             }
         }
-        public void PreDraw(Graphics graphics, Point tempPoint)
+        public override void PreDraw(Graphics graphics, Point tempPoint)
         {
             if (isDrawing)
             {
@@ -58,7 +54,7 @@ namespace Paint.Domain.Figures
                 }
             }
         }
-        public void Draw(Graphics graphics)
+        public override void Draw(Graphics graphics)
         {
             if (endPoint.X < firstPoint.X)
             {
@@ -77,13 +73,12 @@ namespace Paint.Domain.Figures
                 graphics.DrawLine(pen, startPoint, endPoint);
             }
         }
-        public void EndDrawing(Graphics graphics)
+        public override void EndDrawing(Graphics graphics)
         {
             Draw(graphics);
             isDrawing = false;
         }
-        protected abstract void DrawBase(Graphics graphics);
-        public void CancelDrawing()
+        public override void CancelDrawing()
         {
             isDrawing = false;
         }

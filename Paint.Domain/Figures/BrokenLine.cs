@@ -2,15 +2,10 @@
 {
     public class BrokenLine : ComplexFigure
     {
-        public override FigureType Type { get { return FigureType.BrokenLine; } }
-        public BrokenLine(Color fillColor, Color strokeColor, int strokeWidth)
+        public BrokenLine(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth)
         {
-            pen = new(strokeColor, strokeWidth);
-            pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
-            pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
-            pen.LineJoin = System.Drawing.Drawing2D.LineJoin.Round;
-            brush = new(fillColor);
-            points = new();
+            name = "Broken line";
+            type = FigureType.BrokenLine;
         }
         public override void EndDrawing(Graphics graphics)
         {
@@ -20,7 +15,7 @@
             }
             isDrawing = false;
         }
-        protected override void DrawBase(Graphics graphics, Pen pen)
+        protected override void DrawBase(Graphics graphics)
         {
             graphics.DrawLines(pen, points.ToArray());
         }

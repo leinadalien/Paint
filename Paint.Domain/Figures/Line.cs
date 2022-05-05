@@ -1,23 +1,15 @@
 ﻿namespace Paint.Domain.Figures
 {
-    public class Line : Figure, IFigure
+    public class Line : Figure
     {
         private Point startPoint;
         private Point endPoint;
-        public FigureType Type { get { return FigureType.Line; } }
-        public Color FillColor { get { return brush.Color; } set { brush.Color = value; } }
-        public Color StrokeColor { get { return pen.Color; } set { pen.Color = value; } }
-        public int StrokeWidth { get { return (int)pen.Width; } set { pen.Width = value; } }
-        public bool IsDrawing { get { return isDrawing; } }
-        public Line(Color fillColor, Color strokeColor, int strokeWidth)
+        public Line(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth)
         {
-            pen = new(strokeColor, strokeWidth);
-            pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
-            pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
-            pen.LineJoin = System.Drawing.Drawing2D.LineJoin.Round;
-            brush = new(fillColor);
+            name = "Line";
+            type = FigureType.Line;
         }
-        public void AddPoint(Point point)
+        public override void AddPoint(Point point)
         {
             if (!isDrawing)
             {
@@ -30,7 +22,7 @@
                 isDrawing = false;
             }
         }
-        public void PreDraw(Graphics graphics, Point tempPoint)
+        public override void PreDraw(Graphics graphics, Point tempPoint)
         {
             if (isDrawing)
             {
@@ -46,7 +38,7 @@
                 }
             }
         }
-        public void Draw(Graphics graphics)
+        public override void Draw(Graphics graphics)
         {
             if (endPoint != startPoint)
             {
@@ -54,16 +46,16 @@
                 CancelDrawing();
             }
         }
-        public void EndDrawing(Graphics graphics)
+        public override void EndDrawing(Graphics graphics)
         {
             Draw(graphics);
             isDrawing = false;
         }
-        protected virtual void DrawBase(Graphics graphics)
+        protected override void DrawBase(Graphics graphics)
         {
             graphics.DrawLine(pen, startPoint, endPoint); 
         }
-        public void CancelDrawing()
+        public override void CancelDrawing()
         {
             isDrawing = false;
         }

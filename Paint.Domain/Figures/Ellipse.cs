@@ -2,15 +2,10 @@
 {
     public class Ellipse : SimpleFigure
     {
-
-        public override FigureType Type { get { return FigureType.Ellipse; } }
-        public Ellipse(Color fillColor, Color strokeColor, int strokeWidth)
+        public Ellipse(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth)
         {
-            pen = new(strokeColor, strokeWidth);
-            pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
-            pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
-            pen.LineJoin = System.Drawing.Drawing2D.LineJoin.Round;
-            brush = new(fillColor);
+            name = "Ellipse";
+            type = FigureType.Ellipse;
         }
         protected override void DrawBase(Graphics graphics)
         {

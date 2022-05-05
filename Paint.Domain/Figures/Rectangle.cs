@@ -2,15 +2,10 @@
 {
     public class Rectangle : SimpleFigure
     {
-
-        public override FigureType Type { get { return FigureType.Rectangle; } }
-        public Rectangle(Color fillColor, Color strokeColor, int strokeWidth)
+        public Rectangle(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth)
         {
-            pen = new(strokeColor, strokeWidth);
-            pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
-            pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
-            pen.LineJoin = System.Drawing.Drawing2D.LineJoin.Round;
-            brush = new(fillColor);
+            name = "Rectangle";
+            type = FigureType.Rectangle;
         }
         protected override void DrawBase(Graphics graphics)
         {
