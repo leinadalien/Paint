@@ -1,12 +1,22 @@
 ﻿namespace Paint.Domain.Figures
 {
-    public class Line : IFigure
+    public class Line : Figure, IFigure
     {
         private Point startPoint;
         private Point endPoint;
-        private bool isDrawing = false;
         public FigureType Type { get { return FigureType.Line; } }
-       
+        public Color FillColor { get { return brush.Color; } set { brush.Color = value; } }
+        public Color StrokeColor { get { return pen.Color; } set { pen.Color = value; } }
+        public int StrokeWidth { get { return (int)pen.Width; } set { pen.Width = value; } }
+        public bool IsDrawing { get { return isDrawing; } }
+        public Line(Color fillColor, Color strokeColor, int strokeWidth)
+        {
+            pen = new(strokeColor, strokeWidth);
+            pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
+            pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+            pen.LineJoin = System.Drawing.Drawing2D.LineJoin.Round;
+            brush = new(fillColor);
+        }
         public void AddPoint(Point point)
         {
             if (!isDrawing)
@@ -20,14 +30,14 @@
                 isDrawing = false;
             }
         }
-        public void PreDraw(Graphics graphics, Pen pen, Brush brush, Point tempPoint)
+        public void PreDraw(Graphics graphics, Point tempPoint)
         {
             if (isDrawing)
             {
                 endPoint = tempPoint;
                 if (tempPoint != startPoint)
                 {
-                    DrawBase(graphics, pen);
+                    DrawBase(graphics);
                 }
                 else
                 {
@@ -36,24 +46,20 @@
                 }
             }
         }
-        public void Draw(Graphics graphics, Pen pen, Brush brush)
+        public void Draw(Graphics graphics)
         {
             if (endPoint != startPoint)
             {
-                DrawBase(graphics, pen);
+                DrawBase(graphics);
                 CancelDrawing();
             }
-            else
-            {
-                Size penSize = new((int)pen.Width, (int)pen.Width);
-                graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(endPoint, penSize / 2), penSize));
-            }
         }
-        public void EndDrawing(Graphics graphics, Pen pen, Brush brush)
+        public void EndDrawing(Graphics graphics)
         {
-            CancelDrawing();
+            Draw(graphics);
+            isDrawing = false;
         }
-        protected virtual void DrawBase(Graphics graphics, Pen pen)
+        protected virtual void DrawBase(Graphics graphics)
         {
             graphics.DrawLine(pen, startPoint, endPoint); 
         }

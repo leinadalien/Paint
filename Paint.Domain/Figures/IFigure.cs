@@ -9,10 +9,14 @@ namespace Paint.Domain.Figures
     public interface IFigure
     {
         public FigureType Type { get; }
+        public Color FillColor { get; set; }
+        public Color StrokeColor { get; set; }
+        public int StrokeWidth { get; set; }
+        public bool IsDrawing { get; }
         public void AddPoint(Point point);
-        public void PreDraw(Graphics graphics, Pen pen, Brush brush, Point tempPoint);
-        public void Draw(Graphics graphics, Pen pen, Brush brush);
-        public void EndDrawing(Graphics graphics, Pen pen, Brush brush);
+        public void PreDraw(Graphics graphics,Point tempPoint);
+        public void Draw(Graphics graphics);
+        public void EndDrawing(Graphics graphics);
         public void CancelDrawing();
     }
 }

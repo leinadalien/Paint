@@ -390,6 +390,7 @@
             this.RedoButton.TabIndex = 1;
             this.RedoButton.Text = "Redo";
             this.RedoButton.UseVisualStyleBackColor = false;
+            this.RedoButton.Click += new System.EventHandler(this.RedoButton_Click);
             // 
             // undoButton
             // 

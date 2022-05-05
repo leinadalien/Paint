@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paint", "Paint\Paint.csproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{CEE934BF-13A1-4D6F-9A04-E5882F50270F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paint.Domain", "Paint.Domain\Paint.Domain.csproj", "{FCCCFCA1-81F3-4EAC-904F-481BD4BDFD0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paint.Domain", "Paint.Domain\Paint.Domain.csproj", "{FCCCFCA1-81F3-4EAC-904F-481BD4BDFD0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paint.FigureKeeper", "Paint.FigureKeeper\Paint.FigureKeeper.csproj", "{7531A985-D183-42D7-887B-C1E39F994689}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +25,17 @@ Global
 		{FCCCFCA1-81F3-4EAC-904F-481BD4BDFD0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCCCFCA1-81F3-4EAC-904F-481BD4BDFD0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCCCFCA1-81F3-4EAC-904F-481BD4BDFD0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7531A985-D183-42D7-887B-C1E39F994689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7531A985-D183-42D7-887B-C1E39F994689}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7531A985-D183-42D7-887B-C1E39F994689}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7531A985-D183-42D7-887B-C1E39F994689}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FCCCFCA1-81F3-4EAC-904F-481BD4BDFD0D} = {CEE934BF-13A1-4D6F-9A04-E5882F50270F}
+		{7531A985-D183-42D7-887B-C1E39F994689} = {CEE934BF-13A1-4D6F-9A04-E5882F50270F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {92AD43C1-1316-4A10-8F44-62F77BEA439E}

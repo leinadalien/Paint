@@ -8,13 +8,18 @@ namespace Paint.Domain.Figures
     {
         protected List<Point> points;
         public FigureType Type { get { return FigureType.BrokenLine; } }
+        public Color FillColor { get { return brush.Color; } set { brush.Color = value; } }
+        public Color StrokeColor { get { return pen.Color; } set { pen.Color = value; } }
+        public int StrokeWidth { get { return (int)pen.Width; } set { pen.Width = value; } }
+        public bool IsDrawing { get { return isDrawing; } }
         public void AddPoint(Point point)
         {
+            isDrawing = true;
             points.Add(point);
         }
-        public void PreDraw(Graphics graphics, Pen pen, Brush brush, Point tempPoint)
+        public void PreDraw(Graphics graphics, Point tempPoint)
         {
-            if (points.Count > 0)
+            if (isDrawing)
             {
                 points.Add(tempPoint);
                 if (points.Count > 1 && tempPoint != points.First())
@@ -29,26 +34,26 @@ namespace Paint.Domain.Figures
                 points.RemoveAt(points.Count - 1);
             }
         }
-        public void Draw(Graphics graphics, Pen pen, Brush brush)
+        public void Draw(Graphics graphics)
         {
-            if (points.Count == 1)
+            if (isDrawing)
             {
-                Size penSize = new((int)pen.Width, (int)pen.Width);
-                graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(points.First(), penSize / 2), penSize));
-            }
-            else
+                if (points.Count > 1)
+                {
+                    DrawBase(graphics, pen);
+                }
+            } else
             {
-                DrawBase(graphics, pen);
+                EndDrawing(graphics);
             }
+            
         }
-        public virtual void EndDrawing(Graphics graphics, Pen pen, Brush brush)
-        {
-            CancelDrawing();
-        }
+        public abstract void EndDrawing(Graphics graphics);
         protected abstract void DrawBase(Graphics graphics, Pen pen);
         public void CancelDrawing()
         {
             points.Clear();
+            isDrawing = false;
         }
     }
 }

@@ -12,6 +12,10 @@ namespace Paint.Domain.Figures
         protected Point endPoint;
         private Point firstPoint;
         public FigureType Type { get { return FigureType.Rectangle; } }
+        public Color FillColor { get { return brush.Color; } set { brush.Color = value; } }
+        public Color StrokeColor { get { return pen.Color; } set { pen.Color = value; } }
+        public int StrokeWidth { get { return (int)pen.Width; } set { pen.Width = value; } }
+        public bool IsDrawing { get { return isDrawing; } }
         public void AddPoint(Point point)
         {
             if (!isDrawing)
@@ -24,10 +28,10 @@ namespace Paint.Domain.Figures
             else
             {
                 endPoint = point;
-                isDrawing = false;
+                CancelDrawing();
             }
         }
-        public void PreDraw(Graphics graphics, Pen pen, Brush brush, Point tempPoint)
+        public void PreDraw(Graphics graphics, Point tempPoint)
         {
             if (isDrawing)
             {
@@ -43,7 +47,7 @@ namespace Paint.Domain.Figures
                 }
                 if (startPoint.X != endPoint.X && startPoint.Y != endPoint.Y)
                 {
-                    DrawBase(graphics, pen, brush);
+                    DrawBase(graphics);
                 }
                 else
                 {
@@ -54,7 +58,7 @@ namespace Paint.Domain.Figures
                 }
             }
         }
-        public void Draw(Graphics graphics, Pen pen, Brush brush)
+        public void Draw(Graphics graphics)
         {
             if (endPoint.X < firstPoint.X)
             {
@@ -66,26 +70,19 @@ namespace Paint.Domain.Figures
             }
             if (startPoint.X != endPoint.X && startPoint.Y != endPoint.Y)
             {
-                DrawBase(graphics, pen, brush);
+                DrawBase(graphics);
             }
             else
             {
-                if (startPoint != endPoint)
-                {
-                    graphics.DrawLine(pen, startPoint, endPoint);
-                }
-                else
-                {
-                    Size penSize = new((int)pen.Width, (int)pen.Width);
-                    graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(endPoint, penSize / 2), penSize));
-                }
+                graphics.DrawLine(pen, startPoint, endPoint);
             }
         }
-        public void EndDrawing(Graphics graphics, Pen pen, Brush brush)
+        public void EndDrawing(Graphics graphics)
         {
-            CancelDrawing();
+            Draw(graphics);
+            isDrawing = false;
         }
-        protected abstract void DrawBase(Graphics graphics, Pen pen, Brush brush);
+        protected abstract void DrawBase(Graphics graphics);
         public void CancelDrawing()
         {
             isDrawing = false;
