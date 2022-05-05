@@ -11,6 +11,7 @@
             brush = new(fillColor);
             points = new();
         }
+        public override FigureType Type { get { return FigureType.Polygon; } }
         public override void EndDrawing(Graphics graphics)
         {
             if (points.Count != 0)

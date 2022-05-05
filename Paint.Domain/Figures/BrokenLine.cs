@@ -2,6 +2,7 @@
 {
     public class BrokenLine : ComplexFigure
     {
+        public override FigureType Type { get { return FigureType.BrokenLine; } }
         public BrokenLine(Color fillColor, Color strokeColor, int strokeWidth)
         {
             pen = new(strokeColor, strokeWidth);

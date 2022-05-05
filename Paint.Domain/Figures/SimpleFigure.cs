@@ -11,7 +11,7 @@ namespace Paint.Domain.Figures
         protected Point startPoint;
         protected Point endPoint;
         private Point firstPoint;
-        public FigureType Type { get { return FigureType.Rectangle; } }
+        public abstract FigureType Type { get;  }
         public Color FillColor { get { return brush.Color; } set { brush.Color = value; } }
         public Color StrokeColor { get { return pen.Color; } set { pen.Color = value; } }
         public int StrokeWidth { get { return (int)pen.Width; } set { pen.Width = value; } }

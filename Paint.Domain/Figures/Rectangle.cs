@@ -2,6 +2,8 @@
 {
     public class Rectangle : SimpleFigure
     {
+
+        public override FigureType Type { get { return FigureType.Rectangle; } }
         public Rectangle(Color fillColor, Color strokeColor, int strokeWidth)
         {
             pen = new(strokeColor, strokeWidth);

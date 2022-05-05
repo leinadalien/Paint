@@ -2,6 +2,8 @@
 {
     public class Ellipse : SimpleFigure
     {
+
+        public override FigureType Type { get { return FigureType.Ellipse; } }
         public Ellipse(Color fillColor, Color strokeColor, int strokeWidth)
         {
             pen = new(strokeColor, strokeWidth);
