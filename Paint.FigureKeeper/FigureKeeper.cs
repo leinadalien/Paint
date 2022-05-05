@@ -22,11 +22,19 @@ namespace Paint.FigureKeeper
         }
         public void AddFigure(IFigure figure)
         {
-            figuresList.Add(figure);
             figuresPointer++;
+            if (redoStack.Count > 0)
+            {
+                List<IFigure> temp = new(figuresList);
+                figuresList.Clear();
+                for (int i = 0; i < figuresPointer; i++)
+                {
+                    figuresList.Add(temp[i]);
+                }
+            }
+            figuresList.Add(figure);
             figurePointers[undoPointer] = (figurePointers[undoPointer].startPointer, figuresPointer);
-            redoStack.Clear();
-            
+            redoStack.Clear();   
         }
         public void ClearCanvas()
         {
