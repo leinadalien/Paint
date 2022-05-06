@@ -9,7 +9,7 @@
         }
         public override void EndDrawing(Graphics graphics)
         {
-            if (points.Count != 0)
+            if (points.Count > 1)
             {
                 graphics.DrawLines(pen, points.ToArray());
                 isDrawing = false;

@@ -9,7 +9,7 @@
         }
         public override void EndDrawing(Graphics graphics)
         {
-            if (points.Count != 0)
+            if (points.Count > 1)
             {
                 graphics.FillPolygon(brush, points.ToArray());
                 graphics.DrawPolygon(pen, points.ToArray());
