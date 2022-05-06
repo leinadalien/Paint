@@ -43,7 +43,6 @@ namespace Paint.FigureKeeper
         public void MakeReserve()
         {
             reserve = new(this);
-            isEmptied = true;
             figuresList.Clear();
             redoStack.Clear();
         }
