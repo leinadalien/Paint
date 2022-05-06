@@ -10,6 +10,7 @@
         public override void AddPoint(Point point)
         {
             isDrawing = true;
+            drawingCanceled = false;
             points.Add(point);
         }
         public override void PreDraw(Graphics graphics, Point tempPoint)

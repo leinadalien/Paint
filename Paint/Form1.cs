@@ -178,5 +178,17 @@ namespace Paint
             penColorLabel.BackColor = Color.Transparent;
             penColorLabel.ForeColor = Color.Black;
         }
+
+        private void canvasPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            MouseEventArgs args = new(e.Button, e.Clicks, e.Location.X - canvas.Location.X, e.Location.Y - canvas.Location.Y, e.Delta);
+            Canvas_MouseMove(sender, args);
+        }
+
+        private void canvasPanel_MouseUp(object sender, MouseEventArgs e)
+        {
+            MouseEventArgs args = new(e.Button, e.Clicks, e.Location.X - canvas.Location.X, e.Location.Y - canvas.Location.Y, e.Delta);
+            Canvas_MouseUp(sender, args);
+        }
     }
 }
