@@ -94,9 +94,12 @@ namespace Paint.FigureKeeper
                 }
                 else
                 {
-                    isEmptied = false;
-                    redoStack.Peek().Draw(graphics);
-                    figuresList.Add(redoStack.Pop());
+                    if (redoStack.Count > 0)
+                    {
+                        isEmptied = false;
+                        redoStack.Peek().Draw(graphics);
+                        figuresList.Add(redoStack.Pop());
+                    }
                 }
             }
             else if (redoStack.Count > 0)
