@@ -139,7 +139,7 @@ namespace Paint
         }
         private void ClearCanvasButton_Click(object sender, EventArgs e)
         {
-            figureKeeper.ClearCanvas();
+            figureKeeper.MakeReserve();
             currentFigure.CancelDrawing();
             graphics.Clear(Color.White);
             canvas.Image = bitmap;

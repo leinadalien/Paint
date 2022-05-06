@@ -4,64 +4,106 @@ namespace Paint.FigureKeeper
 {
     public class FigureKeeper
     {
+        private bool isEmptied = true;
         private Graphics graphics;
-        private List<IFigure> figuresList;
+        internal List<IFigure> figuresList;
         private Stack<IFigure> redoStack;
-        private List<int> startDrawingPointers;
+        private FigureKeeper? reserve;
         public FigureKeeper(Graphics graphics)
         {
             this.graphics = graphics;
             figuresList = new();
             redoStack = new();
-            startDrawingPointers = new();
-            startDrawingPointers.Add(0);
+        }
+        private FigureKeeper(FigureKeeper other)
+        {
+            isEmptied = other.isEmptied;
+            graphics = other.graphics;
+            figuresList = new(other.figuresList);
+            redoStack = new(other.redoStack);
+            reserve = other.reserve;
         }
         public void AddFigure(IFigure figure)
         {
-            figuresList.Add(figure);
-            redoStack.Clear();
-        }
-        public void ClearCanvas()
-        {
-            if (startDrawingPointers.Last() != figuresList.Count)
+            if (isEmptied && reserve != null && redoStack.Count > 0)
             {
-                startDrawingPointers.Add(figuresList.Count);
+                reserve.AddFigure(figure);
+                figuresList = new(reserve.figuresList);
                 redoStack.Clear();
+                isEmptied = false;
+                reserve = reserve.reserve;
             }
+            else
+            {
+                figuresList.Add(figure);
+                redoStack.Clear();
+                isEmptied = false;
+            }
+        }
+        public void MakeReserve()
+        {
+            reserve = new(this);
+            isEmptied = true;
+            figuresList.Clear();
+            redoStack.Clear();
         }
         public void DrawFigures()
         {
             graphics.Clear(Color.White);
-            for(int i = startDrawingPointers.Last(); i < figuresList.Count; i++)
+            foreach(var figure in figuresList)
             {
-                figuresList[i].Draw(graphics);
+                figure.Draw(graphics);
             }
         }
         public void Undo()
         {
-            if (figuresList.Count > 0)
+            if (!isEmptied)
             {
-                if (startDrawingPointers.Last() != figuresList.Count)
+                if (figuresList.Count > 0)
                 {
                     redoStack.Push(figuresList.Last());
                     figuresList.RemoveAt(figuresList.Count - 1);
+                    DrawFigures();
                 }
                 else
                 {
-                    startDrawingPointers.RemoveAt(startDrawingPointers.Count - 1);
+                    isEmptied = true;
+                    reserve?.DrawFigures();
                 }
-                DrawFigures();
             }
+            else
+            {
+                reserve?.Undo();
+            }
+           
         }
         public void Redo()
         {
-            if (redoStack.Count > 0)
+            if (isEmptied)
             {
-                if (startDrawingPointers.Last() != figuresList.Count)
+                if (reserve != null)
                 {
+                    if (reserve.redoStack.Count == 0)
+                    {
+                        DrawFigures();
+                        isEmptied = false;
+                    }
+                    else
+                    {
+                        reserve.Redo();
+                    }
+                }
+                else
+                {
+                    isEmptied = false;
+                    redoStack.Peek().Draw(graphics);
                     figuresList.Add(redoStack.Pop());
                 }
-                DrawFigures();
+            }
+            else if (redoStack.Count > 0)
+            {
+                redoStack.Peek().Draw(graphics);
+                figuresList.Add(redoStack.Pop());
             }
         }
     }
