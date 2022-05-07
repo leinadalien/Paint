@@ -4,9 +4,9 @@ namespace Paint.FigureKeeper
 {
     public class FigureKeeper
     {
-        private bool isEmptied = true;
+        private bool isAlreadyEmptied = false;
         private Graphics graphics;
-        internal List<IFigure> figuresList;
+        private List<IFigure> figuresList;
         private Stack<IFigure> redoStack;
         private FigureKeeper? reserve;
         public FigureKeeper(Graphics graphics)
@@ -17,28 +17,41 @@ namespace Paint.FigureKeeper
         }
         private FigureKeeper(FigureKeeper other)
         {
-            isEmptied = other.isEmptied;
+            isAlreadyEmptied = other.isAlreadyEmptied;
             graphics = other.graphics;
             figuresList = new(other.figuresList);
             redoStack = new(other.redoStack);
             reserve = other.reserve;
         }
+        private void Reset(FigureKeeper other)
+        {
+            isAlreadyEmptied = other.isAlreadyEmptied;
+            graphics = other.graphics;
+            figuresList = other.figuresList;
+            redoStack = other.redoStack;
+            reserve = other.reserve;
+        }
         public void AddFigure(IFigure figure)
         {
-            if (isEmptied && reserve != null && redoStack.Count > 0)
-            {
-                reserve.AddFigure(figure);
-                figuresList = new(reserve.figuresList);
-                redoStack.Clear();
-                isEmptied = false;
-                reserve = reserve.reserve;
-            }
-            else
+            if (!isAlreadyEmptied)
             {
                 figuresList.Add(figure);
                 redoStack.Clear();
-                isEmptied = false;
             }
+            else
+            {
+                if (reserve != null)
+                {
+                    Reset(reserve);
+                    AddFigure(figure);
+                }
+                else
+                {
+                    figuresList.Add(figure);
+                    redoStack.Clear();
+                }
+            }
+
         }
         public void MakeReserve()
         {
@@ -56,7 +69,7 @@ namespace Paint.FigureKeeper
         }
         public void Undo()
         {
-            if (!isEmptied)
+            if (!isAlreadyEmptied)
             {
                 if (figuresList.Count > 0)
                 {
@@ -66,7 +79,7 @@ namespace Paint.FigureKeeper
                 }
                 else
                 {
-                    isEmptied = true;
+                    isAlreadyEmptied = true;
                     reserve?.DrawFigures();
                 }
             }
@@ -78,34 +91,25 @@ namespace Paint.FigureKeeper
         }
         public void Redo()
         {
-            if (isEmptied)
+            if (isAlreadyEmptied)
             {
-                if (reserve != null)
+                if (reserve?.redoStack.Count > 0)
                 {
-                    if (reserve.redoStack.Count == 0)
-                    {
-                        DrawFigures();
-                        isEmptied = false;
-                    }
-                    else
-                    {
-                        reserve.Redo();
-                    }
+                    reserve.Redo();
                 }
                 else
                 {
-                    if (redoStack.Count > 0)
-                    {
-                        isEmptied = false;
-                        redoStack.Peek().Draw(graphics);
-                        figuresList.Add(redoStack.Pop());
-                    }
+                    isAlreadyEmptied = false;
+                    DrawFigures();
                 }
             }
-            else if (redoStack.Count > 0)
+            else
             {
-                redoStack.Peek().Draw(graphics);
-                figuresList.Add(redoStack.Pop());
+                if (redoStack.Count > 0)
+                {
+                    redoStack.Peek().Draw(graphics);
+                    figuresList.Add(redoStack.Pop());
+                }
             }
         }
     }

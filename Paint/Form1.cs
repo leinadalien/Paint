@@ -11,7 +11,8 @@ namespace Paint
         private Color strokeColor = Color.Black;
         private int strokeWidth = 10;
         private Pen pen;
-        bool isPenPaletteOpen = true;
+        private bool isPenPaletteOpen = true;
+        private bool isCanvasEmpty = true;
         private Size penSize;
         private IFigure currentFigure;
         private FigureKeeper.FigureKeeper figureKeeper;
@@ -86,6 +87,7 @@ namespace Paint
                 currentFigure.Draw(graphics);
                 if (!currentFigure.IsDrawing)
                 {
+                    isCanvasEmpty = false;
                     figureKeeper.AddFigure(currentFigure);
                     currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, currentFigure.Type);
                 }
@@ -95,6 +97,7 @@ namespace Paint
                 currentFigure.EndDrawing(graphics);
                 if (!currentFigure.DrawingCanceled)
                 {
+                    isCanvasEmpty = false;
                     figureKeeper.AddFigure(currentFigure);
                     currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, currentFigure.Type);
                 }
@@ -139,10 +142,13 @@ namespace Paint
         }
         private void ClearCanvasButton_Click(object sender, EventArgs e)
         {
-            figureKeeper.MakeReserve();
-            currentFigure.CancelDrawing();
-            graphics.Clear(Color.White);
-            canvas.Image = bitmap;
+            if (!isCanvasEmpty)
+            {
+                figureKeeper.MakeReserve();
+                currentFigure.CancelDrawing();
+                graphics.Clear(Color.White);
+                canvas.Image = bitmap;
+            }
         }
         private void UndoButton_Click(object sender, EventArgs e)
         {
