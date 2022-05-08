@@ -84,6 +84,7 @@ namespace Paint
                     isCanvasEmpty = false;
                     figureKeeper.AddFigure(currentFigure);
                     currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, currentFigure.Type);
+                    canvas.Image = bitmap;
                 }
             }
             if (e.Button == MouseButtons.Right)
@@ -95,10 +96,10 @@ namespace Paint
                     isCanvasEmpty = false;
                     figureKeeper.AddFigure(currentFigure);
                     currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, currentFigure.Type);
+                    canvas.Image = bitmap;
                 }
                 
             }
-            canvas.Image = bitmap;
         }
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
@@ -183,12 +184,12 @@ namespace Paint
             penColorLabel.ForeColor = Color.Black;
         }
 
-        private void canvasPanel_MouseMove(object sender, MouseEventArgs e)
+        private void CanvasPanel_MouseMove(object sender, MouseEventArgs e)
         {
             Canvas_MouseMove(sender, new(e.Button, e.Clicks, e.Location.X - canvas.Location.X, e.Location.Y - canvas.Location.Y, e.Delta));
         }
 
-        private void canvasPanel_MouseUp(object sender, MouseEventArgs e)
+        private void CanvasPanel_MouseUp(object sender, MouseEventArgs e)
         {
             Canvas_MouseUp(sender, new(e.Button, e.Clicks, e.Location.X - canvas.Location.X, e.Location.Y - canvas.Location.Y, e.Delta));
         }

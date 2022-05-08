@@ -7,18 +7,6 @@
             name = "Broken line";
             type = FigureType.BrokenLine;
         }
-        public override void EndDrawing(Graphics graphics)
-        {
-            if (points.Count > 1)
-            {
-                graphics.DrawLines(pen, points.ToArray());
-                isDrawing = false;
-            }
-            else
-            {
-                CancelDrawing();
-            }
-        }
         protected override void DrawBase(Graphics graphics)
         {
             graphics.DrawLines(pen, points.ToArray());

@@ -7,22 +7,10 @@
             name = "Polygon";
             type = FigureType.Polygon;
         }
-        public override void EndDrawing(Graphics graphics)
-        {
-            if (points.Count > 1)
-            {
-                graphics.FillPolygon(brush, points.ToArray());
-                graphics.DrawPolygon(pen, points.ToArray());
-                isDrawing = false;
-            }
-            else
-            {
-                CancelDrawing();
-            }
-        }
         protected override void DrawBase(Graphics graphics)
         {
-            graphics.DrawLines(pen, points.ToArray());
+            graphics.FillPolygon(brush, points.ToArray());
+            graphics.DrawPolygon(pen, points.ToArray());
         }
     }
 }

@@ -83,8 +83,8 @@
             this.canvasPanel.Padding = new System.Windows.Forms.Padding(20);
             this.canvasPanel.Size = new System.Drawing.Size(1032, 673);
             this.canvasPanel.TabIndex = 0;
-            this.canvasPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.canvasPanel_MouseMove);
-            this.canvasPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.canvasPanel_MouseUp);
+            this.canvasPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CanvasPanel_MouseMove);
+            this.canvasPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.CanvasPanel_MouseUp);
             // 
             // canvas
             // 

@@ -44,6 +44,18 @@
                 EndDrawing(graphics);
             }
         }
+        public override void EndDrawing(Graphics graphics)
+        {
+            if (points.Count > 1)
+            {
+                DrawBase(graphics);
+                isDrawing = false;
+            }
+            else
+            {
+                CancelDrawing();
+            }
+        }
         public override void CancelDrawing()
         {
             points.Clear();
