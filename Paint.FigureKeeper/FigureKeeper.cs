@@ -11,6 +11,7 @@ namespace Paint.FigureKeeper
         private FigureKeeper? reserve;
         public FigureKeeper(Graphics graphics)
         {
+            //isAlreadyEmptied = true;
             this.graphics = graphics;
             figuresList = new();
             redoStack = new();
@@ -33,31 +34,30 @@ namespace Paint.FigureKeeper
         }
         public void AddFigure(IFigure figure)
         {
-            if (!isAlreadyEmptied)
+
+            redoStack.Clear();
+            if (reserve != null && isAlreadyEmptied)
             {
-                figuresList.Add(figure);
-                redoStack.Clear();
+                Reset(reserve);
+                AddFigure(figure);
             }
             else
             {
-                if (reserve != null)
-                {
-                    Reset(reserve);
-                    AddFigure(figure);
-                }
-                else
-                {
-                    figuresList.Add(figure);
-                    redoStack.Clear();
-                }
+                figuresList.Add(figure);
             }
-
         }
         public void MakeReserve()
         {
-            reserve = new(this);
-            figuresList.Clear();
             redoStack.Clear();
+            if (reserve != null && isAlreadyEmptied)
+            {
+                reserve.MakeReserve();
+            }
+            else
+            {
+                reserve = new(this);
+                figuresList.Clear();
+            }
         }
         public void DrawFigures()
         {
@@ -93,6 +93,7 @@ namespace Paint.FigureKeeper
         {
             if (isAlreadyEmptied)
             {
+                
                 if (reserve?.redoStack.Count > 0)
                 {
                     reserve.Redo();
