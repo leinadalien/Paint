@@ -11,34 +11,16 @@ namespace Paint.FigureKeeper
         private FigureKeeper? reserve;
         public FigureKeeper(Graphics graphics)
         {
-            //isAlreadyEmptied = true;
             this.graphics = graphics;
             figuresList = new();
             redoStack = new();
         }
-        private FigureKeeper(FigureKeeper other)
-        {
-            isAlreadyEmptied = other.isAlreadyEmptied;
-            graphics = other.graphics;
-            figuresList = new(other.figuresList);
-            redoStack = new(other.redoStack);
-            reserve = other.reserve;
-        }
-        private void Reset(FigureKeeper other)
-        {
-            isAlreadyEmptied = other.isAlreadyEmptied;
-            graphics = other.graphics;
-            figuresList = other.figuresList;
-            redoStack = other.redoStack;
-            reserve = other.reserve;
-        }
         public void AddFigure(IFigure figure)
         {
-
             redoStack.Clear();
             if (reserve != null && isAlreadyEmptied)
             {
-                Reset(reserve);
+                ResetTo(reserve);
                 AddFigure(figure);
             }
             else
@@ -55,16 +37,8 @@ namespace Paint.FigureKeeper
             }
             else
             {
-                reserve = new(this);
+                reserve = GetCopyFrom(this);
                 figuresList.Clear();
-            }
-        }
-        public void DrawFigures()
-        {
-            graphics.Clear(Color.White);
-            foreach(var figure in figuresList)
-            {
-                figure.Draw(graphics);
             }
         }
         public void Undo()
@@ -79,38 +53,65 @@ namespace Paint.FigureKeeper
                 }
                 else
                 {
-                    isAlreadyEmptied = true;
-                    reserve?.DrawFigures();
+                    if (reserve != null)
+                    {
+                        isAlreadyEmptied = true;
+                        reserve?.DrawFigures();
+                    }
                 }
             }
             else
             {
                 reserve?.Undo();
             }
-           
         }
         public void Redo()
         {
-            if (isAlreadyEmptied)
+            if (reserve?.redoStack.Count > 0)
             {
-                
-                if (reserve?.redoStack.Count > 0)
-                {
-                    reserve.Redo();
-                }
-                else
-                {
-                    isAlreadyEmptied = false;
-                    DrawFigures();
-                }
+                reserve.Redo();
             }
             else
             {
-                if (redoStack.Count > 0)
+                if (!isAlreadyEmptied)
                 {
-                    redoStack.Peek().Draw(graphics);
-                    figuresList.Add(redoStack.Pop());
+                    if (redoStack.Count > 0)
+                    {
+                        redoStack.Peek().Draw(graphics);
+                        figuresList.Add(redoStack.Pop());
+                    }
                 }
+                else
+                {
+                    DrawFigures();
+                    isAlreadyEmptied = false;
+                }
+            }
+        }
+        private FigureKeeper GetCopyFrom(FigureKeeper other)
+        {
+            FigureKeeper result = new(other.graphics)
+            {
+                figuresList = new(other.figuresList),
+                redoStack = new(other.redoStack),
+                reserve = other.reserve
+            };
+            return result;
+        }
+        private void ResetTo(FigureKeeper other)
+        {
+            isAlreadyEmptied = other.isAlreadyEmptied;
+            graphics = other.graphics;
+            figuresList = other.figuresList;
+            redoStack = other.redoStack;
+            reserve = other.reserve;
+        }
+        private void DrawFigures()
+        {
+            graphics.Clear(Color.White);
+            foreach (var figure in figuresList)
+            {
+                figure.Draw(graphics);
             }
         }
     }
