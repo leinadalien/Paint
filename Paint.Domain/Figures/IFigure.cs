@@ -19,6 +19,7 @@ namespace Paint.Domain.Figures
         public void PreDraw(Graphics graphics,Point tempPoint);
         public void Draw(Graphics graphics);
         public void EndDrawing(Graphics graphics);
+        public void DrawTarget(Graphics graphics, Point tempPoint);
         public void CancelDrawing();
     }
 }

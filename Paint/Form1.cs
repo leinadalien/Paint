@@ -4,39 +4,33 @@ namespace Paint
 {
     public partial class PaintForm : Form
     {
+        private delegate void TempDrawer(Graphics graphics);
         private bool isMouseLeftButtonDown = false;
+        private Point MouseCanvasPosition;
         private Bitmap bitmap;
         private Graphics graphics;
         private Color fillColor = Color.Transparent;
         private Color strokeColor = Color.Black;
         private int strokeWidth = 10;
-        private Pen pen;
         private bool isPenPaletteOpen = true;
         private bool isCanvasEmpty = true;
-        private Size penSize;
         private IFigure currentFigure;
         private FigureKeeper.FigureKeeper figureKeeper;
         public PaintForm()
         {
+            
             InitializeComponent();
             bitmap = new(canvas.Width, canvas.Height);
             graphics = Graphics.FromImage(bitmap);
-            pen = new(Color.Black, penSizeTrackBar.Value);
             currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, FigureType.Line);
             figureKeeper = new(graphics);
             LoadStandartFigures();
         }
         private void CurrentFigureUpdate()
         {
-            currentFigure.CancelDrawing();
             currentFigure.FillColor = fillColor;
             currentFigure.StrokeColor = strokeColor;
             currentFigure.StrokeWidth = strokeWidth;
-        }
-        private void PenUpdate()
-        {
-            pen.Color = strokeColor;
-            pen.Width = strokeWidth;
         }
         private void LoadStandartFigures()
         {
@@ -75,7 +69,6 @@ namespace Paint
             if (e.Button == MouseButtons.Left)
             {
                 isMouseLeftButtonDown = true;
-                penSize = new((int)pen.Width, (int)pen.Width);
             }
         }
         private void Canvas_MouseUp(object sender, MouseEventArgs e)
@@ -84,9 +77,10 @@ namespace Paint
             {
                 isMouseLeftButtonDown = false;
                 currentFigure.AddPoint(e.Location);
-                currentFigure.Draw(graphics);
+                DrawOnTheTemp(currentFigure.Draw);
                 if (!currentFigure.IsDrawing)
                 {
+                    currentFigure.Draw(graphics);
                     isCanvasEmpty = false;
                     figureKeeper.AddFigure(currentFigure);
                     currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, currentFigure.Type);
@@ -97,6 +91,7 @@ namespace Paint
                 currentFigure.EndDrawing(graphics);
                 if (!currentFigure.DrawingCanceled)
                 {
+                    currentFigure.Draw(graphics);
                     isCanvasEmpty = false;
                     figureKeeper.AddFigure(currentFigure);
                     currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, currentFigure.Type);
@@ -107,18 +102,27 @@ namespace Paint
         }
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
+            MouseCanvasPosition = e.Location;
+            TempDrawer tempDrawer;
+            if (isMouseLeftButtonDown && !currentFigure.IsDrawing)
+            {
+                tempDrawer = (tempGraphics) => { currentFigure.DrawTarget(tempGraphics, e.Location); };
+            }
+            else
+            {
+                tempDrawer = (tempGraphics) => { currentFigure.PreDraw(tempGraphics, e.Location); };
+            }
+            DrawOnTheTemp(tempDrawer);
+        }
+        private void DrawOnTheTemp(TempDrawer tempDrawer)
+        {
             Bitmap tempBitmap = new(bitmap);
             Graphics tempGraphics = Graphics.FromImage(tempBitmap);
-            if (isMouseLeftButtonDown)
-            {
-                tempGraphics.FillEllipse(pen.Brush, new(Point.Subtract(e.Location, penSize / 2), penSize));
-            }
-            currentFigure.PreDraw(tempGraphics, e.Location);
+            tempDrawer.Invoke(tempGraphics);
             canvas.Image = tempBitmap;
             canvas.Refresh();
             tempGraphics.Dispose();
             tempBitmap.Dispose();
-
         }
         private void ColorButton_SetColor(object sender, EventArgs e)
         {
@@ -130,15 +134,15 @@ namespace Paint
             {
                 fillColor = choosenColor;
             }
-            PenUpdate();
             CurrentFigureUpdate();
+            DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, MouseCanvasPosition); });
         }
         private void PenSizeTrackBar_ValueChanged(object sender, EventArgs e)
         {
             strokeWidth = penSizeTrackBar.Value;
             currentFigure.StrokeWidth = penSizeTrackBar.Value;
-            PenUpdate();
             CurrentFigureUpdate();
+            DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, MouseCanvasPosition);});
         }
         private void ClearCanvasButton_Click(object sender, EventArgs e)
         {
@@ -152,21 +156,15 @@ namespace Paint
         }
         private void UndoButton_Click(object sender, EventArgs e)
         {
-            if (currentFigure.IsDrawing)
-            {
-                currentFigure.CancelDrawing();
-            }
             figureKeeper.Undo();
             canvas.Image = bitmap;
+            DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, MouseCanvasPosition); });
         }
         private void RedoButton_Click(object sender, EventArgs e)
         {
-            if (currentFigure.IsDrawing)
-            {
-                currentFigure.CancelDrawing();
-            }
             figureKeeper.Redo();
             canvas.Image = bitmap;
+            DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, MouseCanvasPosition); });
         }
         private void PenColorLabel_Click(object sender, EventArgs e)
         {
@@ -187,14 +185,12 @@ namespace Paint
 
         private void canvasPanel_MouseMove(object sender, MouseEventArgs e)
         {
-            MouseEventArgs args = new(e.Button, e.Clicks, e.Location.X - canvas.Location.X, e.Location.Y - canvas.Location.Y, e.Delta);
-            Canvas_MouseMove(sender, args);
+            Canvas_MouseMove(sender, new(e.Button, e.Clicks, e.Location.X - canvas.Location.X, e.Location.Y - canvas.Location.Y, e.Delta));
         }
 
         private void canvasPanel_MouseUp(object sender, MouseEventArgs e)
         {
-            MouseEventArgs args = new(e.Button, e.Clicks, e.Location.X - canvas.Location.X, e.Location.Y - canvas.Location.Y, e.Delta);
-            Canvas_MouseUp(sender, args);
+            Canvas_MouseUp(sender, new(e.Button, e.Clicks, e.Location.X - canvas.Location.X, e.Location.Y - canvas.Location.Y, e.Delta));
         }
     }
 }

@@ -28,6 +28,11 @@
         public abstract void PreDraw(Graphics graphics, Point tempPoint);
         public abstract void Draw(Graphics graphics);
         public abstract void EndDrawing(Graphics graphics);
+        public virtual void DrawTarget(Graphics graphics, Point tempPoint)
+        {
+            Size penSize = new((int)pen.Width, (int)pen.Width);
+            graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(tempPoint, penSize / 2), penSize));
+        }
         public virtual void CancelDrawing()
         {
             isDrawing = false;
