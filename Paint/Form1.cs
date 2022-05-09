@@ -5,6 +5,7 @@ namespace Paint
     public partial class PaintForm : Form
     {
         private delegate void TempDrawer(Graphics graphics);
+        private FigureCreator creator;
         private bool isMouseLeftButtonDown = false;
         private Point MouseCanvasPosition;
         private Bitmap bitmap;
@@ -18,13 +19,13 @@ namespace Paint
         private FigureKeeper.FigureKeeper figureKeeper;
         public PaintForm()
         {
-            
+            creator = new LineCreator();
             InitializeComponent();
             bitmap = new(canvas.Width, canvas.Height);
             graphics = Graphics.FromImage(bitmap);
-            currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, FigureType.Line);
             figureKeeper = new(graphics);
             LoadStandartFigures();
+            currentFigure = creator.Create(fillColor, strokeColor, strokeWidth);
         }
         private void CurrentFigureUpdate()
         {
@@ -34,13 +35,22 @@ namespace Paint
         }
         private void LoadStandartFigures()
         {
+            List<FigureCreator> creators = new()
+            {
+                new LineCreator(),
+                new RectangleCreator(),
+                new EllipseCreator(),
+                new BrokenLineCreator(),
+                new PolygonCreator(),
+            };
             Button currentButton = new();
+            creator = creators.First();
             standartFiguresFlowLayoutPanel.FlowDirection = FlowDirection.LeftToRight;
             standartFiguresFlowLayoutPanel.AutoScroll = true;
             standartFiguresFlowLayoutPanel.Margin = new(5, 5, 5, 5);
             standartFiguresFlowLayoutPanel.Padding = new(5, 5, 5, 5);
             standartFiguresFlowLayoutPanel.Controls.Clear();
-            foreach (FigureType figureType in Enum.GetValues(typeof(FigureType)))
+            foreach (var creator in creators)
             {
                 Button button = new();
                 button.FlatStyle = FlatStyle.Flat;
@@ -48,8 +58,8 @@ namespace Paint
                 button.Height = 30;
                 button.Margin = new(5, 5, 5, 5);
                 button.BackColor = Color.DarkGray;
-                button.Text = figureType.ToString();
-                if (figureType == currentFigure.Type)
+                button.Text = creator.FigureType;
+                if (creator == this.creator)
                 {
                     currentButton = button;
                     button.BackColor = Color.LightGray;
@@ -59,7 +69,8 @@ namespace Paint
                     currentButton.BackColor = Color.DarkGray;
                     currentButton = button;
                     button.BackColor = Color.LightGray;
-                    currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, figureType);
+                    currentFigure = creator.Create(fillColor, strokeColor, strokeWidth);
+                    this.creator = creator;
                 };
                 standartFiguresFlowLayoutPanel.Controls.Add(button);
             }
@@ -83,7 +94,7 @@ namespace Paint
                     currentFigure.Draw(graphics);
                     isCanvasEmpty = false;
                     figureKeeper.AddFigure(currentFigure);
-                    currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, currentFigure.Type);
+                    currentFigure = creator.Create(fillColor, strokeColor, strokeWidth);
                     canvas.Image = bitmap;
                 }
             }
@@ -95,7 +106,7 @@ namespace Paint
                     currentFigure.Draw(graphics);
                     isCanvasEmpty = false;
                     figureKeeper.AddFigure(currentFigure);
-                    currentFigure = Factory.CreateFigure(fillColor, strokeColor, strokeWidth, currentFigure.Type);
+                    currentFigure = creator.Create(fillColor, strokeColor, strokeWidth);
                     canvas.Image = bitmap;
                 }
                 

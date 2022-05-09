@@ -1,12 +1,11 @@
 ﻿namespace Paint.Domain.Figures
 {
-    public class Line : Figure
+    internal class Line : Figure
     {
         private Point startPoint;
         private Point endPoint;
-        public Line(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth)
+        internal Line(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth)
         {
-            name = "Line";
             type = FigureType.Line;
         }
         public override void AddPoint(Point point)
@@ -57,6 +56,14 @@
         protected override void DrawBase(Graphics graphics)
         {
             graphics.DrawLine(pen, startPoint, endPoint); 
+        }
+    }
+    public class LineCreator : FigureCreator
+    {
+        public override string FigureType { get { return "Line"; } }
+        public override IFigure Create(Color fillColor, Color strokeColor, int strokeWidth)
+        {
+            return new Line(fillColor, strokeColor, strokeWidth);
         }
     }
 }

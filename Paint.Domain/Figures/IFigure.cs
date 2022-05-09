@@ -8,7 +8,6 @@ namespace Paint.Domain.Figures
 {
     public interface IFigure
     {
-        public string Name { get; }
         public FigureType Type { get; }
         public Color FillColor { get; set; }
         public Color StrokeColor { get; set; }
