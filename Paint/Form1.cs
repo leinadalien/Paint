@@ -1,4 +1,6 @@
 using Paint.Domain.Figures;
+using System.Reflection;
+
 namespace Paint
 {
     public partial class PaintForm : Form
@@ -37,12 +39,24 @@ namespace Paint
         }
         private void ImportFigures(string fileName)
         {
-            
+            Assembly assembly = Assembly.LoadFrom(fileName);
+            Type[] types = assembly.GetTypes();
+            Type[] createParameters = { typeof(Color), typeof(Color), typeof(int) };
+            foreach (Type type in types)
+            {
+                if (type.GetMethod("Create", createParameters) != null)
+                {
+                    var importCreator = assembly.CreateInstance(type.FullName);
+                    if (importCreator != null)
+                    {
+                        creators.Add((FigureCreator)importCreator);
+                    }
+                }
+            }
+            RefreshFigures();
         }
         private void RefreshFigures()
         {
-            Button importButton = this.importButton;
-            importButton.Width = figuresFlowLayoutPanel.ClientSize.Width - 30;
             Button currentButton = new();
             figuresFlowLayoutPanel.Controls.Clear();
             foreach (var creator in creators)
@@ -71,6 +85,16 @@ namespace Paint
                 };
                 figuresFlowLayoutPanel.Controls.Add(button);
             }
+            Button importButton = new()
+            {
+                FlatStyle = FlatStyle.Flat,
+                Width = figuresFlowLayoutPanel.ClientSize.Width - 30,
+                Height = 30,
+                Margin = new(0, 5, 0, 5),
+                BackColor = Color.FromArgb(96, 96, 96),
+                Text = "Import",
+            };
+            importButton.Click += (sender, e) => importButton_Click(importButton, e);
             figuresFlowLayoutPanel.Controls.Add(importButton);
         }
         private void LoadStandartFigures()
@@ -210,6 +234,15 @@ namespace Paint
         private void CanvasPanel_MouseUp(object sender, MouseEventArgs e)
         {
             Canvas_MouseUp(sender, new(e.Button, e.Clicks, e.Location.X - canvas.Location.X, e.Location.Y - canvas.Location.Y, e.Delta));
+        }
+
+        private void importButton_Click(object sender, EventArgs e)
+        {
+            //ImportFigures("");
+            if (importFigureDialog.ShowDialog() == DialogResult.OK)
+            {
+                ImportFigures(importFigureDialog.FileName);
+            }
         }
     }
 }

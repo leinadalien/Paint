@@ -60,7 +60,7 @@
             this.penSizeLabel = new System.Windows.Forms.Label();
             this.clearCanvasPanel = new System.Windows.Forms.Panel();
             this.clearCanvasButton = new System.Windows.Forms.Button();
-            this.importButton = new System.Windows.Forms.Button();
+            this.importFigureDialog = new System.Windows.Forms.OpenFileDialog();
             this.canvasPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.palettePanel.SuspendLayout();
@@ -68,7 +68,6 @@
             this.paletteFlowLayoutPanel.SuspendLayout();
             this.toolsPanel.SuspendLayout();
             this.figuresPanel.SuspendLayout();
-            this.figuresFlowLayoutPanel.SuspendLayout();
             this.undoRedoPanel.SuspendLayout();
             this.penSizePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.penSizeTrackBar)).BeginInit();
@@ -350,7 +349,6 @@
             // 
             this.figuresFlowLayoutPanel.AutoScroll = true;
             this.figuresFlowLayoutPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.figuresFlowLayoutPanel.Controls.Add(this.importButton);
             this.figuresFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.figuresFlowLayoutPanel.Location = new System.Drawing.Point(5, 30);
             this.figuresFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
@@ -499,17 +497,9 @@
             this.clearCanvasButton.UseVisualStyleBackColor = false;
             this.clearCanvasButton.Click += new System.EventHandler(this.ClearCanvasButton_Click);
             // 
-            // importButton
+            // importFigureDialog
             // 
-            this.importButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(96)))), ((int)(((byte)(96)))));
-            this.importButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.importButton.Location = new System.Drawing.Point(5, 5);
-            this.importButton.Margin = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            this.importButton.Name = "importButton";
-            this.importButton.Size = new System.Drawing.Size(192, 30);
-            this.importButton.TabIndex = 0;
-            this.importButton.Text = "Import";
-            this.importButton.UseVisualStyleBackColor = false;
+            this.importFigureDialog.Filter = "(*.dll)|*.dll";
             // 
             // PaintForm
             // 
@@ -530,7 +520,6 @@
             this.toolsPanel.ResumeLayout(false);
             this.toolsPanel.PerformLayout();
             this.figuresPanel.ResumeLayout(false);
-            this.figuresFlowLayoutPanel.ResumeLayout(false);
             this.undoRedoPanel.ResumeLayout(false);
             this.penSizePanel.ResumeLayout(false);
             this.penSizePanel.PerformLayout();
@@ -574,6 +563,6 @@
         private Panel switchColorPanel;
         private Label fillColorLabel;
         private Label penColorLabel;
-        private Button importButton;
+        private OpenFileDialog importFigureDialog;
     }
 }
