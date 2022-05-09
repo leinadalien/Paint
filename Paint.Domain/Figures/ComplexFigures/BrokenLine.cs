@@ -2,10 +2,7 @@
 {
     internal class BrokenLine : ComplexFigure
     {
-        internal BrokenLine(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth)
-        {
-            type = FigureType.BrokenLine;
-        }
+        internal BrokenLine(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
         protected override void DrawBase(Graphics graphics)
         {
             graphics.DrawLines(pen, points.ToArray());

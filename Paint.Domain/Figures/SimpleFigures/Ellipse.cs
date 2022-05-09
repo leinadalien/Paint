@@ -2,10 +2,7 @@
 {
     internal class Ellipse : SimpleFigure
     {
-        internal Ellipse(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth)
-        {
-            type = FigureType.Ellipse;
-        }
+        internal Ellipse(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
         protected override void DrawBase(Graphics graphics)
         {
             graphics.FillEllipse(brush, new(startPoint.X, startPoint.Y, endPoint.X - startPoint.X, endPoint.Y - startPoint.Y));

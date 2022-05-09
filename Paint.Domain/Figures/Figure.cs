@@ -6,7 +6,6 @@
         protected bool drawingCanceled = false;
         protected Pen pen;
         protected SolidBrush brush;
-        protected FigureType type;
         protected Figure(Color fillColor, Color strokeColor, int strokeWidth)
         {
             pen = new(strokeColor, strokeWidth);
@@ -16,7 +15,6 @@
             brush = new(fillColor);
         }
         public bool DrawingCanceled { get { return drawingCanceled; } }
-        public FigureType Type { get { return type; } }
         public Color FillColor { get { return brush.Color; } set { brush.Color = value; } }
         public Color StrokeColor { get { return pen.Color; } set { pen.Color = value; } }
         public int StrokeWidth { get { return (int)pen.Width; } set { pen.Width = value; } }

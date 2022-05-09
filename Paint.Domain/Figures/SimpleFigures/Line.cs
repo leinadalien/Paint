@@ -4,10 +4,7 @@
     {
         private Point startPoint;
         private Point endPoint;
-        internal Line(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth)
-        {
-            type = FigureType.Line;
-        }
+        internal Line(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
         public override void AddPoint(Point point)
         {
             if (!isDrawing)

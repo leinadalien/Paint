@@ -2,10 +2,7 @@
 {
     internal class Polygon : ComplexFigure
     {
-        internal Polygon(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth)
-        {
-            type = FigureType.Polygon;
-        }
+        internal Polygon(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
         protected override void DrawBase(Graphics graphics)
         {
             graphics.FillPolygon(brush, points.ToArray());
