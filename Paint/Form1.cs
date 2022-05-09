@@ -1,4 +1,3 @@
-using Paint.Domain;
 using Paint.Domain.Figures;
 namespace Paint
 {
@@ -6,8 +5,9 @@ namespace Paint
     {
         private delegate void TempDrawer(Graphics graphics);
         private FigureCreator creator;
+        List<FigureCreator> creators;
         private bool isMouseLeftButtonDown = false;
-        private Point MouseCanvasPosition;
+        private Point mouseCanvasPosition;
         private Bitmap bitmap;
         private Graphics graphics;
         private Color fillColor = Color.Transparent;
@@ -24,7 +24,9 @@ namespace Paint
             bitmap = new(canvas.Width, canvas.Height);
             graphics = Graphics.FromImage(bitmap);
             figureKeeper = new(graphics);
+            creators = new();
             LoadStandartFigures();
+            creator = creators.First();
             currentFigure = creator.Create(fillColor, strokeColor, strokeWidth);
         }
         private void CurrentFigureUpdate()
@@ -33,32 +35,27 @@ namespace Paint
             currentFigure.StrokeColor = strokeColor;
             currentFigure.StrokeWidth = strokeWidth;
         }
-        private void LoadStandartFigures()
+        private void ImportFigures(string fileName)
         {
-            List<FigureCreator> creators = new()
-            {
-                new LineCreator(),
-                new RectangleCreator(),
-                new EllipseCreator(),
-                new BrokenLineCreator(),
-                new PolygonCreator(),
-            };
+            
+        }
+        private void RefreshFigures()
+        {
+            Button importButton = this.importButton;
+            importButton.Width = figuresFlowLayoutPanel.ClientSize.Width - 30;
             Button currentButton = new();
-            creator = creators.First();
-            standartFiguresFlowLayoutPanel.FlowDirection = FlowDirection.LeftToRight;
-            standartFiguresFlowLayoutPanel.AutoScroll = true;
-            standartFiguresFlowLayoutPanel.Margin = new(5, 5, 5, 5);
-            standartFiguresFlowLayoutPanel.Padding = new(5, 5, 5, 5);
-            standartFiguresFlowLayoutPanel.Controls.Clear();
+            figuresFlowLayoutPanel.Controls.Clear();
             foreach (var creator in creators)
             {
-                Button button = new();
-                button.FlatStyle = FlatStyle.Flat;
-                button.Width = standartFiguresFlowLayoutPanel.ClientSize.Width - 40;
-                button.Height = 30;
-                button.Margin = new(5, 5, 5, 5);
-                button.BackColor = Color.DarkGray;
-                button.Text = creator.FigureType;
+                Button button = new()
+                {
+                    FlatStyle = FlatStyle.Flat,
+                    Width = figuresFlowLayoutPanel.ClientSize.Width - 30,
+                    Height = 30,
+                    Margin = new(0, 5, 0, 0),
+                    BackColor = Color.DarkGray,
+                    Text = creator.FigureType
+                };
                 if (creator == this.creator)
                 {
                     currentButton = button;
@@ -72,8 +69,18 @@ namespace Paint
                     currentFigure = creator.Create(fillColor, strokeColor, strokeWidth);
                     this.creator = creator;
                 };
-                standartFiguresFlowLayoutPanel.Controls.Add(button);
+                figuresFlowLayoutPanel.Controls.Add(button);
             }
+            figuresFlowLayoutPanel.Controls.Add(importButton);
+        }
+        private void LoadStandartFigures()
+        {
+            creators.Add(new LineCreator());
+            creators.Add(new RectangleCreator());
+            creators.Add(new EllipseCreator());
+            creators.Add(new BrokenLineCreator());
+            creators.Add(new PolygonCreator());
+            RefreshFigures();
         }
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
@@ -114,7 +121,7 @@ namespace Paint
         }
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            MouseCanvasPosition = e.Location;
+            mouseCanvasPosition = e.Location;
             TempDrawer tempDrawer;
             if (isMouseLeftButtonDown && !currentFigure.IsDrawing)
             {
@@ -147,14 +154,14 @@ namespace Paint
                 fillColor = choosenColor;
             }
             CurrentFigureUpdate();
-            DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, MouseCanvasPosition); });
+            DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, mouseCanvasPosition); });
         }
         private void PenSizeTrackBar_ValueChanged(object sender, EventArgs e)
         {
             strokeWidth = penSizeTrackBar.Value;
             currentFigure.StrokeWidth = penSizeTrackBar.Value;
             CurrentFigureUpdate();
-            DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, MouseCanvasPosition);});
+            DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, mouseCanvasPosition);});
         }
         private void ClearCanvasButton_Click(object sender, EventArgs e)
         {
@@ -170,13 +177,13 @@ namespace Paint
         {
             figureKeeper.Undo();
             canvas.Image = bitmap;
-            DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, MouseCanvasPosition); });
+            DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, mouseCanvasPosition); });
         }
         private void RedoButton_Click(object sender, EventArgs e)
         {
             figureKeeper.Redo();
             canvas.Image = bitmap;
-            DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, MouseCanvasPosition); });
+            DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, mouseCanvasPosition); });
         }
         private void PenColorLabel_Click(object sender, EventArgs e)
         {
