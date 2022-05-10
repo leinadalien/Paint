@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Paint.Domain\Paint.Domain.csproj" />
-    <ProjectReference Include="..\Paint.FigureKeeper\Paint.FigureKeeper.csproj" />
+    <ProjectReference Include="..\Paint.Figures\Paint.Figures.csproj" />
   </ItemGroup>
 
   <ItemGroup>

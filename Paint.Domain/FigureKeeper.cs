@@ -1,6 +1,6 @@
 ﻿using Paint.Figures;
 
-namespace Paint.FigureKeeper
+namespace Paint.Domain.FigureKeeper
 {
     public class FigureKeeper
     {

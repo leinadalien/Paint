@@ -1,4 +1,4 @@
-﻿namespace Paint.Domain.Figures
+﻿namespace Paint.Figures
 {
     public abstract class ComplexFigure : Figure
     {
@@ -15,18 +15,10 @@
         }
         public override void PreDraw(Graphics graphics, Point tempPoint)
         {
-            if (isDrawing)
+            if (isDrawing && points.Count > 0)
             {
                 points.Add(tempPoint);
-                if (points.Count > 1 && tempPoint != points.First())
-                {
-                    DrawBase(graphics);
-                }
-                else
-                {
-                    Size penSize = new((int)pen.Width, (int)pen.Width);
-                    graphics.FillEllipse(new SolidBrush(pen.Color), new(Point.Subtract(tempPoint, penSize / 2), penSize));
-                }
+                DrawBase(graphics);
                 points.RemoveAt(points.Count - 1);
             }
         }

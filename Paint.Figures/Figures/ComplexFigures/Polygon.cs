@@ -1,4 +1,4 @@
-﻿namespace Paint.Domain.Figures
+﻿namespace Paint.Figures
 {
     internal class Polygon : ComplexFigure
     {

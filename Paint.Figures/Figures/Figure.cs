@@ -1,4 +1,4 @@
-﻿namespace Paint.Domain.Figures
+﻿namespace Paint.Figures
 {
     public abstract class Figure : IFigure
     {

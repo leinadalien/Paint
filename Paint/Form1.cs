@@ -1,5 +1,6 @@
-using Paint.Domain.Figures;
-using System.Reflection;
+using Paint.Domain.FigureKeeper;
+using Paint.Domain.FigureImporter;
+using Paint.Figures;
 
 namespace Paint
 {
@@ -18,7 +19,7 @@ namespace Paint
         private bool isPenPaletteOpen = true;
         private bool isCanvasEmpty = true;
         private IFigure currentFigure;
-        private FigureKeeper.FigureKeeper figureKeeper;
+        private FigureKeeper figureKeeper;
         public PaintForm()
         {
             creator = new LineCreator();
@@ -28,8 +29,8 @@ namespace Paint
             figureKeeper = new(graphics);
             creators = new();
             LoadStandartFigures();
-            creator = creators.First();
             currentFigure = creator.Create(fillColor, strokeColor, strokeWidth);
+            ImportFigures("C:\\Users\\leinadalien\\Desktop\\Paint.Trapezoid.dll");
         }
         private void CurrentFigureUpdate()
         {
@@ -39,21 +40,20 @@ namespace Paint
         }
         private void ImportFigures(string fileName)
         {
-            Assembly assembly = Assembly.LoadFrom(fileName);
-            Type[] types = assembly.GetTypes();
-            Type[] createParameters = { typeof(Color), typeof(Color), typeof(int) };
-            foreach (Type type in types)
+            CreatorImporter importer = new();
+            if (importer.ImportFromDll(fileName) == ImportResult.OK)
             {
-                if (type.GetMethod("Create", createParameters) != null)
+                foreach (var creator in importer.ImportedCreators)
                 {
-                    var importCreator = assembly.CreateInstance(type.FullName);
-                    if (importCreator != null)
-                    {
-                        creators.Add((FigureCreator)importCreator);
-                    }
+                    creators.Add(creator);
                 }
+                RefreshFigures();
+                MessageBox.Show("Success!", "Import");
             }
-            RefreshFigures();
+            else
+            {
+                MessageBox.Show("Error!", "Import");
+            }
         }
         private void RefreshFigures()
         {
@@ -64,13 +64,13 @@ namespace Paint
                 Button button = new()
                 {
                     FlatStyle = FlatStyle.Flat,
-                    Width = figuresFlowLayoutPanel.ClientSize.Width - 30,
+                    Width = figuresFlowLayoutPanel.Width - 30,
                     Height = 30,
                     Margin = new(0, 5, 0, 0),
                     BackColor = Color.DarkGray,
                     Text = creator.FigureType
                 };
-                if (creator == this.creator)
+                if (creator.FigureType == this.creator.FigureType)
                 {
                     currentButton = button;
                     button.BackColor = Color.LightGray;
@@ -88,7 +88,7 @@ namespace Paint
             Button importButton = new()
             {
                 FlatStyle = FlatStyle.Flat,
-                Width = figuresFlowLayoutPanel.ClientSize.Width - 30,
+                Width = figuresFlowLayoutPanel.Width - 30,
                 Height = 30,
                 Margin = new(0, 5, 0, 5),
                 BackColor = Color.FromArgb(96, 96, 96),
