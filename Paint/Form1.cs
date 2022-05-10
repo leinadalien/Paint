@@ -30,7 +30,7 @@ namespace Paint
             creators = new();
             LoadStandartFigures();
             currentFigure = creator.Create(fillColor, strokeColor, strokeWidth);
-            ImportFigures("C:\\Users\\leinadalien\\Desktop\\Paint.Trapezoid.dll");
+            //ImportFigures("E:/Visual Studio Projects/Paint/Paint.Plugins/bin/Debug/net6.0-windows/Paint.Trapezoid.dll");
         }
         private void CurrentFigureUpdate()
         {

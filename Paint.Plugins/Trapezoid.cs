@@ -13,9 +13,7 @@ namespace Paint.Plugins
         }
         private Point MirrorPointOf(Point point)
         {
-            Point result = new(point.X - points.Last().X, point.Y - points.Last().Y);
-            result.X += points.First().X;
-            result.Y += points.First().Y;
+            Point result = new(points.First().X + points[1].X - point.X, point.Y);
             return result;
         }
         public override void AddPoint(Point point)
@@ -23,10 +21,16 @@ namespace Paint.Plugins
             if (points.Count == 1)
             {
                 points.Add(new(point.X, points.First().Y));
-            }
-            if (points.Count == 3)
+            } else 
+            if (points.Count == 2)
             {
                 isDrawing = false;
+                points.Add(point);
+                points.Add(MirrorPointOf(point));
+                if (points[3].X > points[2].X)
+                {
+                    (points[2], points[3]) = ((points[3], points[2]));
+                }
             }
             else
             {
@@ -37,18 +41,36 @@ namespace Paint.Plugins
         {
             if (isDrawing && points.Count > 0)
             {
-                points.Add(tempPoint);
-                if (points.Count > 2)
+                if (points.Count == 1)
                 {
-                    points.Add(MirrorPointOf(tempPoint));
+                    points.Add(new(tempPoint.X, points.First().Y));
                     DrawBase(graphics);
                     points.RemoveAt(points.Count - 1);
-                }
-                else
+                } else 
+                if (points.Count == 2)
                 {
-                    graphics.DrawLine(pen, points[0], points[1]);
+                    points.Add(tempPoint);
+                    points.Add(MirrorPointOf(tempPoint));
+                    if (points[3].X > points[2].X)
+                    {
+                        (points[2], points[3]) = ((points[3], points[2]));
+                    }
+                    DrawBase(graphics);
+                    points.RemoveAt(points.Count - 1);
+                    points.RemoveAt(points.Count - 1);
                 }
-                points.RemoveAt(points.Count - 1);
+            }
+        }
+        public override void EndDrawing(Graphics graphics)
+        {
+            if (points.Count > 2)
+            {
+                DrawBase(graphics);
+                isDrawing = false;
+            }
+            else
+            {
+                CancelDrawing();
             }
         }
     }
