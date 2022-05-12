@@ -2,6 +2,7 @@
 {
     public interface IFigure
     {
+        public IEnumerable<Point> AnchorPoints { get; set; }
         public Color FillColor { get; set; }
         public Color StrokeColor { get; set; }
         public int StrokeWidth { get; set; }

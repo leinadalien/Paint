@@ -1,8 +1,8 @@
 ﻿namespace Paint.Figures
 {
-    internal class Rectangle : SimpleFigure
+    public class Rectangle : SimpleFigure
     {
-        internal Rectangle(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
+        public Rectangle(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
         protected override void DrawBase(Graphics graphics)
         {
             graphics.FillRectangle(brush, new(startPoint.X, startPoint.Y, endPoint.X - startPoint.X, endPoint.Y - startPoint.Y));

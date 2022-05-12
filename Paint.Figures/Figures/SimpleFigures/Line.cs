@@ -1,10 +1,11 @@
 ﻿namespace Paint.Figures
 {
-    internal class Line : Figure
+    public class Line : Figure
     {
         private Point startPoint;
         private Point endPoint;
-        internal Line(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
+        public override IEnumerable<Point> AnchorPoints { get { return new List<Point>() { startPoint, endPoint }; } set { startPoint = value.First(); endPoint = value.Last(); } }
+        public Line(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
         public override void AddPoint(Point point)
         {
             if (!isDrawing)

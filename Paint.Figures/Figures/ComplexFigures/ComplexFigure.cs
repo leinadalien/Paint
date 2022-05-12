@@ -3,6 +3,7 @@
     public abstract class ComplexFigure : Figure
     {
         protected List<Point> points;
+        public override IEnumerable<Point> AnchorPoints { get { return points; } set { points = value.ToList(); } }
         protected ComplexFigure(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth)
         {
             points = new();

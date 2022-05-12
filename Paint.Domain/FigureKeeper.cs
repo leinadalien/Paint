@@ -114,5 +114,35 @@ namespace Paint.Domain.FigureKeeper
                 figure.Draw(graphics);
             }
         }
+        public List<IFigure> GetDrawedFigures()
+        {
+            List<IFigure> result = new();
+            if (!isAlreadyEmptied)
+            {
+                result = figuresList;
+            }
+            else if(reserve != null)
+            {
+                result = reserve.GetDrawedFigures();
+            }
+            return result;
+        }
+        public void Clear()
+        {
+            reserve = null;
+            figuresList.Clear();
+            redoStack.Clear();
+        }
+        public void DrawCurrentFigures()
+        {
+            if (!isAlreadyEmptied)
+            {
+                DrawFigures();
+            }
+            else if (reserve != null)
+            {
+                reserve.DrawCurrentFigures();
+            }
+        }
     }
 }

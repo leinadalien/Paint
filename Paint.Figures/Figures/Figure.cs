@@ -14,6 +14,7 @@
             pen.LineJoin = System.Drawing.Drawing2D.LineJoin.Round;
             brush = new(fillColor);
         }
+        public abstract IEnumerable<Point> AnchorPoints { get; set; }
         public bool DrawingCanceled { get { return drawingCanceled; } }
         public Color FillColor { get { return brush.Color; } set { brush.Color = value; } }
         public Color StrokeColor { get { return pen.Color; } set { pen.Color = value; } }

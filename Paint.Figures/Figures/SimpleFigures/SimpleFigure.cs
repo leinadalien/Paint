@@ -5,6 +5,7 @@
         protected Point startPoint;
         protected Point endPoint;
         private Point firstPoint;
+        public override IEnumerable<Point> AnchorPoints { get { return new List<Point>(){ startPoint, endPoint }; } set { startPoint = value.First(); endPoint = value.Last(); firstPoint = startPoint; } }
         protected SimpleFigure(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
         public override void AddPoint(Point point)
         {

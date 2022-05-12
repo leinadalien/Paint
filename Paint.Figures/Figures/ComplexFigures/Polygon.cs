@@ -1,8 +1,8 @@
 ﻿namespace Paint.Figures
 {
-    internal class Polygon : ComplexFigure
+    public class Polygon : ComplexFigure
     {
-        internal Polygon(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
+        public Polygon(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
         protected override void DrawBase(Graphics graphics)
         {
             graphics.FillPolygon(brush, points.ToArray());

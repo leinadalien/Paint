@@ -1,12 +1,13 @@
 using Paint.Domain.FigureKeeper;
 using Paint.Domain.FigureImporter;
+using Paint.Domain.FigureSerializer;
 using Paint.Figures;
 
 namespace Paint
 {
     public partial class PaintForm : Form
     {
-        private delegate void TempDrawer(Graphics graphics);
+        private delegate void Drawer(Graphics graphics);
         private FigureCreator creator;
         List<FigureCreator> creators;
         private bool isMouseLeftButtonDown = false;
@@ -30,7 +31,7 @@ namespace Paint
             creators = new();
             LoadStandartFigures();
             currentFigure = creator.Create(fillColor, strokeColor, strokeWidth);
-            //ImportFigures("E:/Visual Studio Projects/Paint/Paint.Plugins/bin/Debug/net6.0-windows/Paint.Trapezoid.dll");
+            canvas.Image = bitmap;
         }
         private void CurrentFigureUpdate()
         {
@@ -94,7 +95,7 @@ namespace Paint
                 BackColor = Color.FromArgb(96, 96, 96),
                 Text = "Import",
             };
-            importButton.Click += (sender, e) => importButton_Click(importButton, e);
+            importButton.Click += (sender, e) => ImportButton_Click(importButton, e);
             figuresFlowLayoutPanel.Controls.Add(importButton);
         }
         private void LoadStandartFigures()
@@ -146,7 +147,7 @@ namespace Paint
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             mouseCanvasPosition = e.Location;
-            TempDrawer tempDrawer;
+            Drawer tempDrawer;
             if (isMouseLeftButtonDown && !currentFigure.IsDrawing)
             {
                 tempDrawer = (tempGraphics) => { currentFigure.DrawTarget(tempGraphics, e.Location); };
@@ -157,7 +158,7 @@ namespace Paint
             }
             DrawOnTheTemp(tempDrawer);
         }
-        private void DrawOnTheTemp(TempDrawer tempDrawer)
+        private void DrawOnTheTemp(Drawer tempDrawer)
         {
             Bitmap tempBitmap = new(bitmap);
             Graphics tempGraphics = Graphics.FromImage(tempBitmap);
@@ -236,12 +237,52 @@ namespace Paint
             Canvas_MouseUp(sender, new(e.Button, e.Clicks, e.Location.X - canvas.Location.X, e.Location.Y - canvas.Location.Y, e.Delta));
         }
 
-        private void importButton_Click(object sender, EventArgs e)
+        private void ImportButton_Click(object sender, EventArgs e)
         {
-            //ImportFigures("");
-            if (importFigureDialog.ShowDialog() == DialogResult.OK)
+            if (importFiguresDialog.ShowDialog() == DialogResult.OK)
             {
-                ImportFigures(importFigureDialog.FileName);
+                ImportFigures(importFiguresDialog.FileName);
+            }
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                FigureSerializer.SerializeToJson(figureKeeper.GetDrawedFigures(), saveDialog.FileName);
+                MessageBox.Show("Success!", "Save");
+            }
+            else
+            {
+                MessageBox.Show("Error", "Import");
+            }
+        }
+
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog loadFiguresDialog = new();
+            loadFiguresDialog.Title = "Load drawing";
+            loadFiguresDialog.Filter = "(*.json)|*.json";
+            if (loadFiguresDialog.ShowDialog() == DialogResult.OK)
+            {
+                figureKeeper.Clear();
+                try
+                {
+                    List<IFigure> figures = FigureSerializer.DeserializeFromJson(loadFiguresDialog.FileName);
+                    foreach (IFigure figure in figures)
+                    {
+                        figureKeeper.AddFigure(figure);
+                    }
+                    figureKeeper.DrawCurrentFigures();
+                    MessageBox.Show("Success!", "Load");
+                } catch (Exception ex)
+                {
+                    MessageBox.Show("Plugins not found", "Load");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error", "Load");
             }
         }
     }
