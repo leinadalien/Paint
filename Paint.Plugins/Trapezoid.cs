@@ -17,6 +17,11 @@ namespace Paint.Plugins
         }
         public override void AddPoint(Point point)
         {
+            if (points.Count == 1)
+            {
+                points.Add(new(point.X, points.First().Y));
+            }
+            else
             if (points.Count == 2)
             {
                 isDrawing = false;
@@ -26,10 +31,6 @@ namespace Paint.Plugins
                 {
                     (points[2], points[3]) = ((points[3], points[2]));
                 }
-            }
-            if (points.Count == 1)
-            {
-                points.Add(new(point.X, points.First().Y));
             }
             else
             {
