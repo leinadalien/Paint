@@ -46,10 +46,7 @@
         }
         public override void EndDrawing(Graphics graphics)
         {
-            if (isDrawing)
-            {
-                CancelDrawing();
-            }
+            CancelDrawing();
         }
         protected override void DrawBase(Graphics graphics)
         {

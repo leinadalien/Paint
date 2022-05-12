@@ -70,10 +70,7 @@
         }
         public override void EndDrawing(Graphics graphics)
         {
-            if (isDrawing)
-            {
-                CancelDrawing();
-            }
+            CancelDrawing();
         }
     }
 }
