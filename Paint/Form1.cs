@@ -279,6 +279,7 @@ namespace Paint
                     {
                         figureKeeper.AddFigure(figure);
                     }
+                    isCanvasEmpty = false;
                     figureKeeper.DrawCurrentFigures();
                 }
                 else

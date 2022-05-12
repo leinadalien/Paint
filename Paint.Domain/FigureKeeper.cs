@@ -132,12 +132,13 @@ namespace Paint.Domain.FigureKeeper
             reserve = null;
             figuresList.Clear();
             redoStack.Clear();
-            isAlreadyEmptied = false;
+            isAlreadyEmptied = true;
         }
         public void DrawCurrentFigures()
         {
-            if (!isAlreadyEmptied)
+            if (figuresList.Count > 0)
             {
+                isAlreadyEmptied = false;
                 DrawFigures();
             }
             else if (reserve != null)

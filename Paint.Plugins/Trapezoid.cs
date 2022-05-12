@@ -4,7 +4,6 @@ namespace Paint.Plugins
 {
     public class Trapezoid : ComplexFigure
     {
-        private int height;
         public Trapezoid(Color fillColor, Color strokeColor, int strokeWidth) : base(fillColor, strokeColor, strokeWidth) { }
         protected override void DrawBase(Graphics graphics)
         {
@@ -27,9 +26,19 @@ namespace Paint.Plugins
                 isDrawing = false;
                 points.Add(point);
                 points.Add(MirrorPointOf(point));
-                if (points[3].X > points[2].X)
+                if (points[1].X > points[0].X)
                 {
-                    (points[2], points[3]) = ((points[3], points[2]));
+                    if (points[3].X > points[2].X)
+                    {
+                        (points[2], points[3]) = ((points[3], points[2]));
+                    }
+                }
+                else
+                {
+                    if (points[2].X > points[3].X)
+                    {
+                        (points[2], points[3]) = ((points[3], points[2]));
+                    }
                 }
             }
             else
@@ -45,9 +54,19 @@ namespace Paint.Plugins
                 {
                     points.Add(tempPoint);
                     points.Add(MirrorPointOf(tempPoint));
-                    if (points[3].X > points[2].X)
+                    if (points[1].X > points[0].X)
                     {
-                        (points[2], points[3]) = ((points[3], points[2]));
+                        if (points[3].X > points[2].X)
+                        {
+                            (points[2], points[3]) = ((points[3], points[2]));
+                        }
+                    }
+                    else
+                    {
+                        if (points[2].X > points[3].X)
+                        {
+                            (points[2], points[3]) = ((points[3], points[2]));
+                        }
                     }
                     DrawBase(graphics);
                     points.RemoveAt(points.Count - 1);
