@@ -63,8 +63,6 @@
             this.projectPanel = new System.Windows.Forms.Panel();
             this.saveButton = new System.Windows.Forms.Button();
             this.loadButton = new System.Windows.Forms.Button();
-            this.importFiguresDialog = new System.Windows.Forms.OpenFileDialog();
-            this.saveDialog = new System.Windows.Forms.SaveFileDialog();
             this.canvasPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.palettePanel.SuspendLayout();
@@ -541,18 +539,6 @@
             this.loadButton.UseVisualStyleBackColor = false;
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
-            // importFiguresDialog
-            // 
-            this.importFiguresDialog.Filter = "(*.dll)|*.dll";
-            this.importFiguresDialog.Title = "Import figure";
-            // 
-            // saveDialog
-            // 
-            this.saveDialog.CheckPathExists = false;
-            this.saveDialog.DefaultExt = "*.jpg";
-            this.saveDialog.Filter = "(*.json)|*.json";
-            this.saveDialog.Title = "Save drawing";
-            // 
             // PaintForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -616,10 +602,8 @@
         private Panel switchColorPanel;
         private Label fillColorLabel;
         private Label penColorLabel;
-        private OpenFileDialog importFiguresDialog;
         private Panel projectPanel;
         private Button saveButton;
         private Button loadButton;
-        private SaveFileDialog saveDialog;
     }
 }

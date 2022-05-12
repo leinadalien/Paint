@@ -39,23 +39,6 @@ namespace Paint
             currentFigure.StrokeColor = strokeColor;
             currentFigure.StrokeWidth = strokeWidth;
         }
-        private void ImportFigures(string fileName)
-        {
-            CreatorImporter importer = new();
-            if (importer.ImportFromDll(fileName) == ImportResult.OK)
-            {
-                foreach (var creator in importer.ImportedCreators)
-                {
-                    creators.Add(creator);
-                }
-                RefreshFigures();
-                MessageBox.Show("Success!", "Import");
-            }
-            else
-            {
-                MessageBox.Show("Error!", "Import");
-            }
-        }
         private void RefreshFigures()
         {
             Button currentButton = new();
@@ -239,45 +222,68 @@ namespace Paint
 
         private void ImportButton_Click(object sender, EventArgs e)
         {
+            OpenFileDialog importFiguresDialog = new()
+            {
+                Title = "Import figures",
+                Filter = "(*.dll) | *.dll",
+            };
             if (importFiguresDialog.ShowDialog() == DialogResult.OK)
             {
-                ImportFigures(importFiguresDialog.FileName);
+                CreatorImporter importer = new();
+                if (importer.ImportFromDll(importFiguresDialog.FileName) == ImportResult.OK)
+                {
+                    foreach (var creator in importer.ImportedCreators)
+                    {
+                        creators.Add(creator);
+                    }
+                    RefreshFigures();
+                }
+                else
+                {
+                    MessageBox.Show("Error!", "Import");
+                }
             }
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            if (saveDialog.ShowDialog() == DialogResult.OK)
+            SaveFileDialog saveFiguresDialog = new()
             {
-                FigureSerializer.SerializeToJson(figureKeeper.GetDrawedFigures(), saveDialog.FileName);
-                MessageBox.Show("Success!", "Save");
+                Title = "Save drawing",
+                Filter = "(*.json)|*.json",
+            };
+            if (saveFiguresDialog.ShowDialog() == DialogResult.OK)
+            {
+                FigureSerializer.SerializeToJson(figureKeeper.GetDrawedFigures(), saveFiguresDialog.FileName);
             }
             else
             {
-                MessageBox.Show("Error", "Import");
+                MessageBox.Show("Error", "Save");
             }
         }
 
         private void loadButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog loadFiguresDialog = new();
-            loadFiguresDialog.Title = "Load drawing";
-            loadFiguresDialog.Filter = "(*.json)|*.json";
+            OpenFileDialog loadFiguresDialog = new()
+            {
+                Title = "Load drawing",
+                Filter = "(*.json)|*.json",
+            };
             if (loadFiguresDialog.ShowDialog() == DialogResult.OK)
             {
-                figureKeeper.Clear();
-                try
+                FigureSerializer figureSerializer = new();
+                if (figureSerializer.DeserializeFromJson(loadFiguresDialog.FileName) == Result.OK)
                 {
-                    List<IFigure> figures = FigureSerializer.DeserializeFromJson(loadFiguresDialog.FileName);
-                    foreach (IFigure figure in figures)
+                    figureKeeper.Clear();
+                    foreach (IFigure figure in figureSerializer.DeserializedFigures)
                     {
                         figureKeeper.AddFigure(figure);
                     }
                     figureKeeper.DrawCurrentFigures();
-                    MessageBox.Show("Success!", "Load");
-                } catch (Exception ex)
+                }
+                else
                 {
-                    MessageBox.Show("Plugins not found", "Load");
+                    MessageBox.Show("Plugins are not found", "Load");
                 }
             }
             else
