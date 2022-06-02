@@ -31,10 +31,12 @@ namespace Paint
         private void ColorButton_SetColor(object sender, EventArgs e)
         {
             paint.ColorButton_SetColor(sender, e);
+            canvas.Image = paint.Image;
         }
         private void PenSizeTrackBar_ValueChanged(object sender, EventArgs e)
         {
             paint.ChangePenSize(penSizeTrackBar.Value);
+            canvas.Image = paint.Image;
         }
         private void ClearCanvasButton_Click(object sender, EventArgs e)
         {
@@ -67,7 +69,10 @@ namespace Paint
             penColorLabel.BackColor = Color.Transparent;
             penColorLabel.ForeColor = Color.Black;
         }
-
+        private void CanvasPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            Canvas_MouseDown(sender, new(e.Button, e.Clicks, e.Location.X - canvas.Location.X, e.Location.Y - canvas.Location.Y, e.Delta));
+        }
         private void CanvasPanel_MouseMove(object sender, MouseEventArgs e)
         {
             Canvas_MouseMove(sender, new(e.Button, e.Clicks, e.Location.X - canvas.Location.X, e.Location.Y - canvas.Location.Y, e.Delta));
@@ -88,7 +93,7 @@ namespace Paint
             paint.Save();
         }
 
-        private void loadButton_Click(object sender, EventArgs e)
+        private void LoadButton_Click(object sender, EventArgs e)
         {
             paint.Load();
             canvas.Image = paint.Image;

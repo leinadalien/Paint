@@ -87,6 +87,7 @@
             this.canvasPanel.Padding = new System.Windows.Forms.Padding(20);
             this.canvasPanel.Size = new System.Drawing.Size(1032, 673);
             this.canvasPanel.TabIndex = 0;
+            this.canvasPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.CanvasPanel_MouseDown);
             this.canvasPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CanvasPanel_MouseMove);
             this.canvasPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.CanvasPanel_MouseUp);
             // 
@@ -537,7 +538,7 @@
             this.loadButton.TabIndex = 2;
             this.loadButton.Text = "Load";
             this.loadButton.UseVisualStyleBackColor = false;
-            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
+            this.loadButton.Click += new System.EventHandler(this.LoadButton_Click);
             // 
             // PaintForm
             // 

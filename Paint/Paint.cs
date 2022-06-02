@@ -40,6 +40,7 @@ namespace Paint
             LoadStandartFigures();
             currentFigure = creator.Create(fillColor, strokeColor, strokeWidth);
             Image = bitmap;
+            tempBitmap = new(bitmap);
         }
         private void LoadStandartFigures()
         {
@@ -77,6 +78,7 @@ namespace Paint
                     button.BackColor = Color.LightGray;
                     currentFigure = creator.Create(fillColor, strokeColor, strokeWidth);
                     this.creator = creator;
+                    Image = bitmap;
                 };
                 figuresPanel.Controls.Add(button);
             }
@@ -211,6 +213,8 @@ namespace Paint
                 fillColor = choosenColor;
             }
             CurrentFigureUpdate();
+            tempBitmap.Dispose();
+            tempBitmap = new(bitmap);
             DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, mouseCanvasPosition); });
         }
         public void ChangePenSize(int value)
@@ -218,6 +222,8 @@ namespace Paint
             strokeWidth = value;
             currentFigure.StrokeWidth = value;
             CurrentFigureUpdate();
+            tempBitmap.Dispose();
+            tempBitmap = new(bitmap);
             DrawOnTheTemp((tempGraphics) => { currentFigure.PreDraw(tempGraphics, mouseCanvasPosition); });
         }
         public void Clear()
