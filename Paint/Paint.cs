@@ -228,6 +228,7 @@ namespace Paint
                 currentFigure.CancelDrawing();
                 graphics.Clear(Color.White);
                 Image = bitmap;
+                isCanvasEmpty = true;
             }
         }
         public void Undo()
